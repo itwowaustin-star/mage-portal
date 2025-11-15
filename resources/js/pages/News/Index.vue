@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { Calendar, Picture } from '@element-plus/icons-vue';
 
 interface NewsArticle {
     id: number;
@@ -31,70 +32,86 @@ defineProps<{
                 <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
             </div>
             <div class="relative mx-auto w-full max-w-6xl px-6 text-center">
-                <p class="text-xs font-semibold uppercase tracking-[0.45em] text-blue-600">新闻资讯</p>
-                <h1 class="mt-5 text-4xl font-bold leading-tight text-slate-900 lg:text-5xl drop-shadow-lg">
+                <el-text type="primary" class="text-xs uppercase tracking-[0.45em] font-semibold">新闻资讯</el-text>
+                <h1 class="mt-5 text-4xl font-bold leading-tight lg:text-5xl drop-shadow-lg">
                     最新动态与行业洞察
                 </h1>
-                <p class="mt-4 text-base text-gray-600">
+                <el-text class="block mt-4 text-base">
                     关注马格网络科技的最新动态、技术分享与行业观点
-                </p>
+                </el-text>
             </div>
         </section>
 
         <!-- News Grid -->
-        <section class="bg-white py-20">
+        <section class="bg-gray-50 py-20">
             <div class="mx-auto w-full max-w-6xl px-6">
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    <article
+                <el-row :gutter="24">
+                    <el-col
                         v-for="article in news.data"
                         :key="article.id"
-                        class="group flex h-full flex-col rounded-lg border border-blue-200 bg-gradient-to-br from-white to-blue-50 overflow-hidden shadow-lg shadow-blue-200/20 hover:border-blue-300 hover:shadow-blue-300/40 transition-all cursor-pointer"
+                        :xs="24"
+                        :sm="12"
+                        :lg="8"
+                        class="mb-6"
                     >
-                        <Link :href="`/news/${article.id}`" class="flex flex-col h-full">
-                            <div v-if="article.image" class="relative h-48 overflow-hidden bg-white">
-                                <img
-                                    :src="article.image"
-                                    :alt="article.title"
-                                    class="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                />
+                        <el-card
+                            shadow="hover"
+                            :body-style="{ padding: '0' }"
+                            class="h-full cursor-pointer hover:scale-105 transition-transform"
+                            @click="router.visit(`/news/${article.id}`)"
+                        >
+                            <el-image
+                                v-if="article.image"
+                                :src="article.image"
+                                :alt="article.title"
+                                fit="cover"
+                                class="w-full h-48"
+                            >
+                                <template #error>
+                                    <div class="h-48 flex items-center justify-center bg-gray-100">
+                                        <Picture class="w-12 h-12 text-gray-400" />
+                                    </div>
+                                </template>
+                            </el-image>
+                            <div v-else class="h-48 flex items-center justify-center bg-gray-100">
+                                <Picture class="w-12 h-12 text-gray-400" />
                             </div>
-                            <div v-else class="h-48 bg-white flex items-center justify-center text-gray-500">
-                                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="flex flex-col flex-1 p-6">
-                                <p class="text-xs uppercase tracking-widest text-blue-600 font-semibold">新闻</p>
-                                <h3 class="mt-2 line-clamp-2 text-lg font-bold text-slate-900 group-hover:text-blue-700 transition">
+                            <div class="p-6">
+                                <el-tag type="primary" size="small" class="mb-2">新闻</el-tag>
+                                <h3 class="text-lg font-bold line-clamp-2 hover:text-blue-600 transition">
                                     {{ article.title }}
                                 </h3>
-                                <p class="mt-3 line-clamp-3 flex-1 text-sm text-gray-600">
+                                <el-text class="block mt-3 text-sm line-clamp-3">
                                     {{ article.description }}
-                                </p>
-                                <p class="mt-4 text-xs text-slate-500">
-                                    {{ new Date(article.created_at * 1000).toLocaleDateString('zh-CN') }}
-                                </p>
+                                </el-text>
+                                <el-space class="mt-4 w-full" alignment="center">
+                                    <Calendar class="w-4 h-4 text-gray-400" />
+                                    <el-text type="info" size="small">
+                                        {{ new Date(article.created_at * 1000).toLocaleDateString('zh-CN') }}
+                                    </el-text>
+                                </el-space>
                             </div>
-                        </Link>
-                    </article>
-                </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
 
                 <!-- Pagination -->
-                <div v-if="news.links.next || news.links.prev" class="mt-12 flex items-center justify-center gap-2">
-                    <Link
-                        v-if="news.links.prev"
-                        :href="news.links.prev"
-                        class="rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition"
-                    >
-                        上一页
-                    </Link>
-                    <Link
-                        v-if="news.links.next"
-                        :href="news.links.next"
-                        class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition"
-                    >
-                        下一页
-                    </Link>
+                <div v-if="news.links.next || news.links.prev" class="mt-12 flex items-center justify-center">
+                    <el-space>
+                        <el-button
+                            v-if="news.links.prev"
+                            @click="router.visit(news.links.prev!)"
+                        >
+                            上一页
+                        </el-button>
+                        <el-button
+                            v-if="news.links.next"
+                            type="primary"
+                            @click="router.visit(news.links.next!)"
+                        >
+                            下一页
+                        </el-button>
+                    </el-space>
                 </div>
             </div>
         </section>

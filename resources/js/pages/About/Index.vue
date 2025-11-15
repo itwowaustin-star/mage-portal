@@ -2,6 +2,7 @@
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { Calendar } from '@element-plus/icons-vue';
 
 interface CompanyInfo {
     name: string;
@@ -85,131 +86,128 @@ const cleanedAdvantages = computed(() =>
                 ></div>
             </div>
             <div class="relative mx-auto w-full max-w-5xl px-6">
-                <p
-                    class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
-                >
+                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
                     ABOUT
-                </p>
-                <h1
-                    class="mt-3 text-4xl font-bold text-slate-900 drop-shadow-lg"
-                >
+                </el-text>
+                <h1 class="mt-3 text-4xl font-bold drop-shadow-lg">
                     {{ cleanedCompany.name }}
                 </h1>
-                <p class="mt-3 text-base leading-relaxed text-gray-600">
+                <el-text class="block mt-3 text-base leading-relaxed">
                     {{ cleanedCompany.description }}
-                </p>
-                <div class="mt-8 grid gap-6 md:grid-cols-2">
-                    <article
-                        class="rounded-lg border border-blue-200 bg-gradient-to-br from-white to-blue-50 p-6 shadow-lg shadow-blue-200/20"
-                    >
-                        <p
-                            class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
-                        >
-                            愿景
-                        </p>
-                        <p class="mt-3 text-xl font-bold text-blue-700">
-                            {{ cleanedCompany.vision }}
-                        </p>
-                    </article>
-                    <article
-                        class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-6 shadow-lg shadow-blue-200/20"
-                    >
-                        <p
-                            class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
-                        >
-                            使命
-                        </p>
-                        <p class="mt-3 text-xl font-bold text-blue-700">
-                            {{ cleanedCompany.mission }}
-                        </p>
-                    </article>
-                </div>
-                <div
-                    class="mt-8 rounded-lg border border-blue-200 bg-gradient-to-br from-white to-blue-50 p-6 shadow-lg shadow-blue-200/20"
-                >
-                    <p
-                        class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
-                    >
-                        定位关键词
-                    </p>
-                    <div class="mt-4 flex flex-wrap gap-3">
-                        <span
+                </el-text>
+                
+                <el-row :gutter="24" class="mt-8">
+                    <el-col :xs="24" :md="12">
+                        <el-card shadow="hover">
+                            <template #header>
+                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                    愿景
+                                </el-text>
+                            </template>
+                            <el-text class="text-xl font-bold text-blue-700">
+                                {{ cleanedCompany.vision }}
+                            </el-text>
+                        </el-card>
+                    </el-col>
+                    <el-col :xs="24" :md="12" class="mt-6 md:mt-0">
+                        <el-card shadow="hover">
+                            <template #header>
+                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                    使命
+                                </el-text>
+                            </template>
+                            <el-text class="text-xl font-bold text-blue-700">
+                                {{ cleanedCompany.mission }}
+                            </el-text>
+                        </el-card>
+                    </el-col>
+                </el-row>
+                
+                <el-card shadow="hover" class="mt-6">
+                    <template #header>
+                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                            定位关键词
+                        </el-text>
+                    </template>
+                    <div class="flex flex-wrap gap-3">
+                        <el-tag
                             v-for="item in cleanedCompany.positioning"
                             :key="item"
-                            class="rounded-full border border-blue-300 bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700"
+                            type="primary"
+                            size="large"
+                            effect="light"
                         >
                             {{ item }}
-                        </span>
+                        </el-tag>
                     </div>
-                </div>
+                </el-card>
             </div>
         </section>
 
         <!-- Timeline -->
         <section
             v-if="cleanedTimeline.length"
-            class="border-t border-blue-100 bg-white py-16"
+            class="bg-gray-50 py-16"
         >
             <div class="mx-auto w-full max-w-5xl px-6">
-                <p
-                    class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
-                >
+                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
                     MILESTONES
-                </p>
-                <h2 class="mt-3 text-3xl font-bold text-slate-900">
+                </el-text>
+                <h2 class="mt-3 text-2xl font-bold">
                     项目历程与关键节点
                 </h2>
-                <div class="mt-8 space-y-4">
-                    <article
+                <el-timeline class="mt-8">
+                    <el-timeline-item
                         v-for="item in cleanedTimeline"
                         :key="`${item.year}-${item.title}`"
-                        class="flex items-start gap-4 rounded-2xl border border-blue-100 bg-blue-50/40 px-6 py-5 shadow-sm shadow-blue-100/50"
+                        :timestamp="item.year"
+                        placement="top"
+                        :icon="Calendar"
+                        type="primary"
+                        size="large"
                     >
-                        <div
-                            class="rounded-full bg-white px-5 py-2 text-lg font-semibold text-blue-700 shadow-inner shadow-blue-200"
-                        >
-                            {{ item.year }}
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-900">
+                        <el-card shadow="hover">
+                            <h3 class="text-lg font-bold">
                                 {{ item.title }}
                             </h3>
-                            <p
-                                class="mt-2 text-sm leading-relaxed text-gray-600"
-                            >
+                            <el-text class="block mt-2 text-sm leading-relaxed">
                                 {{ item.description }}
-                            </p>
-                        </div>
-                    </article>
-                </div>
+                            </el-text>
+                        </el-card>
+                    </el-timeline-item>
+                </el-timeline>
             </div>
         </section>
 
         <!-- Team Capabilities -->
         <section class="bg-white py-16">
             <div class="mx-auto w-full max-w-5xl px-6">
-                <p
-                    class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
-                >
+                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
                     TEAM CAPABILITIES
-                </p>
-                <h2 class="mt-3 text-3xl font-bold text-slate-900">
+                </el-text>
+                <h2 class="mt-3 text-2xl font-bold">
                     驻场部门的职责说明
                 </h2>
-                <div class="mt-8 grid gap-6 md:grid-cols-3">
-                    <article
+                <el-row :gutter="24" class="mt-8">
+                    <el-col
                         v-for="item in cleanedAdvantages"
                         :key="item.title"
-                        class="rounded-lg border border-blue-200 bg-gradient-to-br from-white to-blue-50 p-6 shadow-lg shadow-blue-200/20 transition-all hover:border-blue-300 hover:shadow-blue-300/30"
+                        :xs="24"
+                        :md="8"
+                        class="mb-6"
                     >
-                        <h3 class="text-lg font-bold text-blue-700">
-                            {{ item.title }}
-                        </h3>
-                        <p class="mt-3 leading-relaxed text-gray-600">
-                            {{ item.description }}
-                        </p>
-                    </article>
-                </div>
+                        <el-card shadow="hover" class="h-full">
+                            <template #header>
+                                <h3 class="text-lg font-bold text-blue-600">
+                                    {{ item.title }}
+                                </h3>
+                            </template>
+                            <el-text class="leading-relaxed">
+                                {{ item.description }}
+                            </el-text>
+                        </el-card>
+                    </el-col>
+                </el-row>
             </div>
         </section>
     </MarketingLayout>
