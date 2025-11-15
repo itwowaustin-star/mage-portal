@@ -124,81 +124,67 @@ const cleanedAdvisors = computed(() =>
                                 <el-text class="text-sm">{{ cta.description }}</el-text>
                             </template>
                             
-                            <el-space direction="vertical" :size="16" class="w-full">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <User class="w-4 h-4 text-blue-600" />
-                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                            负责顾问
-                                        </el-text>
+                            <el-space direction="vertical" :size="20" class="w-full">
+                                <div class="flex items-start gap-3">
+                                    <el-icon color="#2563eb" :size="18" class="mt-0.5"><User /></el-icon>
+                                    <div class="flex-1">
+                                        <el-text type="info" class="text-xs block mb-1">负责顾问</el-text>
+                                        <el-text class="font-semibold">{{ contact.advisor ?? '待分配' }}</el-text>
                                     </div>
-                                    <el-text class="block ml-6 font-semibold">
-                                        {{ contact.advisor ?? '待分配' }}
-                                    </el-text>
                                 </div>
                                 
-                                <el-divider class="my-2" />
+                                <el-divider class="my-0" />
                                 
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <Phone class="w-4 h-4 text-blue-600" />
-                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                            电话
-                                        </el-text>
+                                <div class="flex items-start gap-3">
+                                    <el-icon color="#2563eb" :size="18" class="mt-0.5"><Phone /></el-icon>
+                                    <div class="flex-1">
+                                        <el-text type="info" class="text-xs block mb-1">电话</el-text>
+                                        <el-link :href="`tel:${contact.phone}`" type="primary" class="text-lg font-semibold">
+                                            {{ contact.phone }}
+                                        </el-link>
                                     </div>
-                                    <el-link :href="`tel:${contact.phone}`" type="primary" class="block ml-6 text-xl font-semibold">
-                                        {{ contact.phone }}
-                                    </el-link>
                                 </div>
                                 
-                                <el-divider class="my-2" />
+                                <el-divider class="my-0" />
                                 
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <Message class="w-4 h-4 text-blue-600" />
-                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                            邮箱
-                                        </el-text>
+                                <div class="flex items-start gap-3">
+                                    <el-icon color="#2563eb" :size="18" class="mt-0.5"><Message /></el-icon>
+                                    <div class="flex-1">
+                                        <el-text type="info" class="text-xs block mb-1">邮箱</el-text>
+                                        <el-link :href="`mailto:${contact.email}`" type="primary">
+                                            {{ contact.email }}
+                                        </el-link>
                                     </div>
-                                    <el-link :href="`mailto:${contact.email}`" type="primary" class="block ml-6">
-                                        {{ contact.email }}
-                                    </el-link>
                                 </div>
                                 
-                                <el-divider class="my-2" />
+                                <el-divider class="my-0" />
                                 
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <ChatDotSquare class="w-4 h-4 text-blue-600" />
-                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                            微信
-                                        </el-text>
+                                <div class="flex items-start gap-3">
+                                    <el-icon color="#2563eb" :size="18" class="mt-0.5"><ChatDotSquare /></el-icon>
+                                    <div class="flex-1">
+                                        <el-text type="info" class="text-xs block mb-1">微信</el-text>
+                                        <el-text>{{ contact.wechat }}</el-text>
                                     </div>
-                                    <el-text class="block ml-6">{{ contact.wechat }}</el-text>
                                 </div>
                                 
-                                <el-divider class="my-2" />
+                                <el-divider class="my-0" />
                                 
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <Location class="w-4 h-4 text-blue-600" />
-                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                            地址
-                                        </el-text>
+                                <div class="flex items-start gap-3">
+                                    <el-icon color="#2563eb" :size="18" class="mt-0.5"><Location /></el-icon>
+                                    <div class="flex-1">
+                                        <el-text type="info" class="text-xs block mb-1">地址</el-text>
+                                        <el-text>{{ contact.address }}</el-text>
                                     </div>
-                                    <el-text class="block ml-6">{{ contact.address }}</el-text>
                                 </div>
                                 
-                                <el-divider class="my-2" />
+                                <el-divider class="my-0" />
                                 
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <Clock class="w-4 h-4 text-blue-600" />
-                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                            响应时间
-                                        </el-text>
+                                <div class="flex items-start gap-3">
+                                    <el-icon color="#2563eb" :size="18" class="mt-0.5"><Clock /></el-icon>
+                                    <div class="flex-1">
+                                        <el-text type="info" class="text-xs block mb-1">响应时间</el-text>
+                                        <el-text>{{ contact.hours }}</el-text>
                                     </div>
-                                    <el-text class="block ml-6">{{ contact.hours }}</el-text>
                                 </div>
                             </el-space>
                         </el-card>
@@ -318,7 +304,9 @@ const cleanedAdvisors = computed(() =>
                         <el-card shadow="hover" class="h-full">
                             <template #header>
                                 <div class="flex items-center gap-3">
-                                    <el-avatar :icon="User" :size="40" />
+                                    <el-avatar :size="40" class="bg-blue-100 text-blue-600">
+                                        <el-icon :size="24"><User /></el-icon>
+                                    </el-avatar>
                                     <div>
                                         <h3 class="text-lg font-bold text-blue-600">{{ advisor.name }}</h3>
                                         <el-text type="info" class="text-sm">{{ advisor.title }}</el-text>
@@ -327,7 +315,9 @@ const cleanedAdvisors = computed(() =>
                             </template>
                             
                             <el-space direction="vertical" :size="12" class="w-full">
-                                <el-tag type="primary" size="large">{{ advisor.expertise }}</el-tag>
+                                <div>
+                                    <el-tag type="primary" size="large">{{ advisor.expertise }}</el-tag>
+                                </div>
                                 
                                 <div v-if="advisor.phone" class="flex items-center gap-2">
                                     <Phone class="w-4 h-4 text-blue-600" />

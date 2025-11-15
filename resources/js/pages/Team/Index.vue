@@ -99,7 +99,9 @@ const cleanedPillars = computed(() =>
                             </template>
                             
                             <div class="space-y-4">
-                                <el-tag type="primary" size="large" class="w-full justify-center">{{ member.expertise }}</el-tag>
+                                <div class="text-center">
+                                    <el-tag type="primary" size="large">{{ member.expertise }}</el-tag>
+                                </div>
                                 
                                 <el-divider class="my-4" />
                                 
