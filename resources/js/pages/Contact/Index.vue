@@ -126,11 +126,13 @@ const cleanedAdvisors = computed(() =>
                             
                             <el-space direction="vertical" :size="16" class="w-full">
                                 <div>
-                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
-                                        <User class="w-4 h-4" />
-                                        负责顾问
-                                    </el-text>
-                                    <el-text class="block mt-2 font-semibold">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <User class="w-4 h-4 text-blue-600" />
+                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                            负责顾问
+                                        </el-text>
+                                    </div>
+                                    <el-text class="block ml-6 font-semibold">
                                         {{ contact.advisor ?? '待分配' }}
                                     </el-text>
                                 </div>
@@ -138,11 +140,13 @@ const cleanedAdvisors = computed(() =>
                                 <el-divider class="my-2" />
                                 
                                 <div>
-                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
-                                        <Phone class="w-4 h-4" />
-                                        电话
-                                    </el-text>
-                                    <el-link :href="`tel:${contact.phone}`" type="primary" class="block mt-2 text-xl font-semibold">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <Phone class="w-4 h-4 text-blue-600" />
+                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                            电话
+                                        </el-text>
+                                    </div>
+                                    <el-link :href="`tel:${contact.phone}`" type="primary" class="block ml-6 text-xl font-semibold">
                                         {{ contact.phone }}
                                     </el-link>
                                 </div>
@@ -150,11 +154,13 @@ const cleanedAdvisors = computed(() =>
                                 <el-divider class="my-2" />
                                 
                                 <div>
-                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
-                                        <Message class="w-4 h-4" />
-                                        邮箱
-                                    </el-text>
-                                    <el-link :href="`mailto:${contact.email}`" type="primary" class="block mt-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <Message class="w-4 h-4 text-blue-600" />
+                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                            邮箱
+                                        </el-text>
+                                    </div>
+                                    <el-link :href="`mailto:${contact.email}`" type="primary" class="block ml-6">
                                         {{ contact.email }}
                                     </el-link>
                                 </div>
@@ -162,31 +168,37 @@ const cleanedAdvisors = computed(() =>
                                 <el-divider class="my-2" />
                                 
                                 <div>
-                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
-                                        <ChatDotSquare class="w-4 h-4" />
-                                        微信
-                                    </el-text>
-                                    <el-text class="block mt-2">{{ contact.wechat }}</el-text>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <ChatDotSquare class="w-4 h-4 text-blue-600" />
+                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                            微信
+                                        </el-text>
+                                    </div>
+                                    <el-text class="block ml-6">{{ contact.wechat }}</el-text>
                                 </div>
                                 
                                 <el-divider class="my-2" />
                                 
                                 <div>
-                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
-                                        <Location class="w-4 h-4" />
-                                        地址
-                                    </el-text>
-                                    <el-text class="block mt-2">{{ contact.address }}</el-text>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <Location class="w-4 h-4 text-blue-600" />
+                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                            地址
+                                        </el-text>
+                                    </div>
+                                    <el-text class="block ml-6">{{ contact.address }}</el-text>
                                 </div>
                                 
                                 <el-divider class="my-2" />
                                 
                                 <div>
-                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
-                                        <Clock class="w-4 h-4" />
-                                        响应时间
-                                    </el-text>
-                                    <el-text class="block mt-2">{{ contact.hours }}</el-text>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <Clock class="w-4 h-4 text-blue-600" />
+                                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                            响应时间
+                                        </el-text>
+                                    </div>
+                                    <el-text class="block ml-6">{{ contact.hours }}</el-text>
                                 </div>
                             </el-space>
                         </el-card>
@@ -305,21 +317,28 @@ const cleanedAdvisors = computed(() =>
                     >
                         <el-card shadow="hover" class="h-full">
                             <template #header>
-                                <h3 class="text-lg font-bold text-blue-600">{{ advisor.name }}</h3>
-                                <el-text type="info" class="text-sm">{{ advisor.title }}</el-text>
+                                <div class="flex items-center gap-3">
+                                    <el-avatar :icon="User" :size="40" />
+                                    <div>
+                                        <h3 class="text-lg font-bold text-blue-600">{{ advisor.name }}</h3>
+                                        <el-text type="info" class="text-sm">{{ advisor.title }}</el-text>
+                                    </div>
+                                </div>
                             </template>
                             
-                            <el-tag type="primary" class="mb-4">{{ advisor.expertise }}</el-tag>
-                            
-                            <el-space direction="vertical" :size="8" class="w-full">
+                            <el-space direction="vertical" :size="12" class="w-full">
+                                <el-tag type="primary" size="large">{{ advisor.expertise }}</el-tag>
+                                
                                 <div v-if="advisor.phone" class="flex items-center gap-2">
                                     <Phone class="w-4 h-4 text-blue-600" />
+                                    <el-text class="text-xs text-gray-600">电话：</el-text>
                                     <el-link :href="`tel:${advisor.phone}`" type="primary" class="text-sm">
                                         {{ advisor.phone }}
                                     </el-link>
                                 </div>
                                 <div v-if="advisor.wechat" class="flex items-center gap-2">
                                     <ChatDotSquare class="w-4 h-4 text-blue-600" />
+                                    <el-text class="text-xs text-gray-600">微信：</el-text>
                                     <el-text class="text-sm">{{ advisor.wechat }}</el-text>
                                 </div>
                             </el-space>

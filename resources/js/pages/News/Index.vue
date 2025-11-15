@@ -52,44 +52,46 @@ defineProps<{
                         :xs="24"
                         :sm="12"
                         :lg="8"
-                        class="mb-6"
+                        class="mb-8"
                     >
                         <el-card
                             shadow="hover"
                             :body-style="{ padding: '0' }"
-                            class="h-full cursor-pointer hover:scale-105 transition-transform"
+                            class="h-full cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl"
                             @click="router.visit(`/news/${article.id}`)"
                         >
-                            <el-image
-                                v-if="article.image"
-                                :src="article.image"
-                                :alt="article.title"
-                                fit="cover"
-                                class="w-full h-48"
-                            >
-                                <template #error>
-                                    <div class="h-48 flex items-center justify-center bg-gray-100">
-                                        <Picture class="w-12 h-12 text-gray-400" />
-                                    </div>
-                                </template>
-                            </el-image>
-                            <div v-else class="h-48 flex items-center justify-center bg-gray-100">
-                                <Picture class="w-12 h-12 text-gray-400" />
+                            <div class="relative overflow-hidden">
+                                <el-image
+                                    v-if="article.image"
+                                    :src="article.image"
+                                    :alt="article.title"
+                                    fit="cover"
+                                    class="w-full h-48 transition-transform duration-300 hover:scale-110"
+                                >
+                                    <template #error>
+                                        <div class="h-48 flex items-center justify-center bg-gray-100">
+                                            <el-icon :size="48" color="#dcdfe6"><Picture /></el-icon>
+                                        </div>
+                                    </template>
+                                </el-image>
+                                <div v-else class="h-48 flex items-center justify-center bg-gray-100">
+                                    <el-icon :size="48" color="#dcdfe6"><Picture /></el-icon>
+                                </div>
                             </div>
                             <div class="p-6">
-                                <el-tag type="primary" size="small" class="mb-2">新闻</el-tag>
-                                <h3 class="text-lg font-bold line-clamp-2 hover:text-blue-600 transition">
+                                <el-tag type="primary" size="small" class="mb-3">新闻</el-tag>
+                                <h3 class="text-lg font-bold line-clamp-2 hover:text-blue-600 transition min-h-[56px]">
                                     {{ article.title }}
                                 </h3>
-                                <el-text class="block mt-3 text-sm line-clamp-3">
+                                <el-text class="block mt-4 text-sm text-gray-600 line-clamp-3 min-h-[60px]">
                                     {{ article.description }}
                                 </el-text>
-                                <el-space class="mt-4 w-full" alignment="center">
-                                    <Calendar class="w-4 h-4 text-gray-400" />
+                                <div class="mt-4 pt-4 border-t border-gray-100 flex items-center gap-2">
+                                    <el-icon color="#909399"><Calendar /></el-icon>
                                     <el-text type="info" size="small">
                                         {{ new Date(article.created_at * 1000).toLocaleDateString('zh-CN') }}
                                     </el-text>
-                                </el-space>
+                                </div>
                             </div>
                         </el-card>
                     </el-col>

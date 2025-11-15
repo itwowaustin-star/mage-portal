@@ -37,20 +37,20 @@ defineProps<{
         </section>
 
         <!-- Services Grid -->
-        <section class="bg-gray-50 py-16">
+        <section class="bg-gray-50 py-20">
             <div class="mx-auto w-full max-w-6xl px-6">
-                <el-space direction="vertical" :size="24" class="w-full">
+                <div class="space-y-8">
                     <el-card
                         v-for="service in services"
                         :key="service.slug"
                         shadow="hover"
-                        class="overflow-hidden"
+                        class="overflow-hidden transition-all hover:-translate-y-1"
                     >
-                        <el-row :gutter="24">
+                        <el-row :gutter="32" align="middle">
                             <el-col :xs="24" :lg="16">
                                 <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">SERVICE</el-text>
-                                <h2 class="mt-2 text-2xl font-bold">{{ service.title }}</h2>
-                                <el-text class="block mt-3 text-base">{{ service.excerpt }}</el-text>
+                                <h2 class="mt-3 text-2xl font-bold">{{ service.title }}</h2>
+                                <el-text class="block mt-4 text-base leading-relaxed">{{ service.excerpt }}</el-text>
                                 
                                 <!-- Description with better readability -->
                                 <el-alert
@@ -58,15 +58,17 @@ defineProps<{
                                     type="info"
                                     :closable="false"
                                     class="mt-6"
+                                    effect="light"
                                 />
 
                                 <!-- Tags -->
-                                <div class="mt-4 flex flex-wrap gap-2">
+                                <div class="mt-6 flex flex-wrap gap-2">
                                     <el-tag
                                         v-for="tag in service.tags"
                                         :key="`${service.slug}-${tag}`"
                                         type="primary"
                                         effect="light"
+                                        size="large"
                                     >
                                         {{ tag }}
                                     </el-tag>
@@ -74,38 +76,38 @@ defineProps<{
                             </el-col>
 
                             <!-- Image & CTA -->
-                            <el-col :xs="24" :lg="8" class="mt-6 lg:mt-0">
-                                <el-space direction="vertical" :size="16" class="w-full">
+                            <el-col :xs="24" :lg="8" class="mt-8 lg:mt-0">
+                                <div class="space-y-4">
                                     <el-image
                                         v-if="service.image"
                                         :src="service.image"
                                         :alt="service.title"
                                         fit="cover"
-                                        class="w-full h-48 rounded-lg"
+                                        class="w-full h-56 rounded-lg border border-blue-100"
                                     >
                                         <template #error>
-                                            <div class="flex items-center justify-center h-full bg-gray-100">
+                                            <div class="flex items-center justify-center h-full bg-gray-100 rounded-lg">
                                                 <el-text type="info">暂无图片</el-text>
                                             </div>
                                         </template>
                                     </el-image>
-                                    <div v-else class="flex items-center justify-center h-48 bg-gray-100 rounded-lg">
+                                    <div v-else class="flex items-center justify-center h-56 bg-gray-100 rounded-lg border border-gray-200">
                                         <el-text type="info">暂无视觉素材</el-text>
                                     </div>
                                     <el-button
                                         type="primary"
                                         size="large"
                                         class="w-full"
-                                        :icon="ArrowRight"
                                         @click="router.visit(`/services/${service.slug}`)"
                                     >
                                         查看详情
+                                        <el-icon class="ml-2"><ArrowRight /></el-icon>
                                     </el-button>
-                                </el-space>
+                                </div>
                             </el-col>
                         </el-row>
                     </el-card>
-                </el-space>
+                </div>
             </div>
         </section>
 

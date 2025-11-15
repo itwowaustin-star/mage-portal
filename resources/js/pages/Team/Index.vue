@@ -74,7 +74,7 @@ const cleanedPillars = computed(() =>
         </section>
 
         <!-- Team Members Grid -->
-        <section class="bg-gray-50 py-16">
+        <section class="bg-gray-50 py-20">
             <div class="mx-auto w-full max-w-6xl px-6">
                 <el-row :gutter="24">
                     <el-col
@@ -82,35 +82,46 @@ const cleanedPillars = computed(() =>
                         :key="member.name"
                         :xs="24"
                         :md="12"
-                        class="mb-6"
+                        :lg="8"
+                        class="mb-8"
                     >
-                        <el-card shadow="hover" class="h-full">
+                        <el-card shadow="hover" class="h-full transition-all hover:-translate-y-1">
                             <template #header>
-                                <el-space alignment="center">
-                                    <el-avatar :size="48" :icon="User" />
-                                    <div>
+                                <div class="flex items-center gap-4">
+                                    <el-avatar :size="56" class="bg-blue-100 text-blue-600">
+                                        <el-icon :size="32"><User /></el-icon>
+                                    </el-avatar>
+                                    <div class="flex-1">
                                         <h2 class="text-xl font-bold">{{ member.name }}</h2>
                                         <el-text type="info" class="text-sm">{{ member.title }}</el-text>
                                     </div>
-                                </el-space>
+                                </div>
                             </template>
                             
-                            <el-tag type="primary" class="mb-4">{{ member.expertise }}</el-tag>
-                            
-                            <el-space direction="vertical" :size="12" class="w-full">
-                                <div v-if="member.phone" class="flex items-center gap-2">
-                                    <Phone class="w-4 h-4 text-blue-600" />
-                                    <el-text class="text-sm font-semibold">电话：</el-text>
-                                    <el-link :href="`tel:${member.phone}`" type="primary" class="text-sm">
-                                        {{ member.phone }}
-                                    </el-link>
+                            <div class="space-y-4">
+                                <el-tag type="primary" size="large" class="w-full justify-center">{{ member.expertise }}</el-tag>
+                                
+                                <el-divider class="my-4" />
+                                
+                                <div class="space-y-3">
+                                    <div v-if="member.phone" class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                                        <el-icon color="#2563eb" :size="18"><Phone /></el-icon>
+                                        <div class="flex-1">
+                                            <el-text class="text-xs text-gray-600 block">电话</el-text>
+                                            <el-link :href="`tel:${member.phone}`" type="primary" class="text-sm font-semibold">
+                                                {{ member.phone }}
+                                            </el-link>
+                                        </div>
+                                    </div>
+                                    <div v-if="member.wechat" class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                                        <el-icon color="#2563eb" :size="18"><ChatDotSquare /></el-icon>
+                                        <div class="flex-1">
+                                            <el-text class="text-xs text-gray-600 block">微信</el-text>
+                                            <el-text class="text-sm font-semibold">{{ member.wechat }}</el-text>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div v-if="member.wechat" class="flex items-center gap-2">
-                                    <ChatDotSquare class="w-4 h-4 text-blue-600" />
-                                    <el-text class="text-sm font-semibold">微信：</el-text>
-                                    <el-text class="text-sm">{{ member.wechat }}</el-text>
-                                </div>
-                            </el-space>
+                            </div>
                         </el-card>
                     </el-col>
                 </el-row>
@@ -118,11 +129,13 @@ const cleanedPillars = computed(() =>
         </section>
 
         <!-- Team Pillars -->
-        <section class="bg-white py-16">
-            <div class="mx-auto w-full max-w-5xl px-6">
-                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">TEAM PILLARS</el-text>
-                <h2 class="mt-3 text-2xl font-bold">部门职责清晰透明</h2>
-                <el-row :gutter="24" class="mt-8">
+        <section class="bg-white py-20">
+            <div class="mx-auto w-full max-w-6xl px-6">
+                <div class="text-center mb-12">
+                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">TEAM PILLARS</el-text>
+                    <h2 class="mt-3 text-3xl font-bold">部门职责清晰透明</h2>
+                </div>
+                <el-row :gutter="24">
                     <el-col
                         v-for="pillar in cleanedPillars"
                         :key="pillar.title"
@@ -130,11 +143,11 @@ const cleanedPillars = computed(() =>
                         :md="8"
                         class="mb-6"
                     >
-                        <el-card shadow="hover" class="h-full">
+                        <el-card shadow="hover" class="h-full transition-all hover:-translate-y-1">
                             <template #header>
-                                <h3 class="text-lg font-bold text-blue-600">{{ pillar.title }}</h3>
+                                <h3 class="text-xl font-bold text-blue-600">{{ pillar.title }}</h3>
                             </template>
-                            <el-text class="leading-relaxed">{{ pillar.body }}</el-text>
+                            <el-text class="leading-relaxed text-gray-700">{{ pillar.body }}</el-text>
                         </el-card>
                     </el-col>
                 </el-row>

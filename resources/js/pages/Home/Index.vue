@@ -93,9 +93,9 @@ const hasServicesWithImages = computed(
                     style="animation-delay: 1s"
                 ></div>
             </div>
-            <div class="relative pt-20 pb-16">
+            <div class="relative py-20">
                 <div
-                    class="mx-auto grid w-full max-w-6xl gap-12 px-6 lg:grid-cols-[3fr,2fr] lg:items-center"
+                    class="mx-auto grid w-full max-w-6xl gap-12 px-6 lg:grid-cols-[1fr,1fr] lg:items-center"
                 >
                     <div>
                         <p
@@ -173,7 +173,7 @@ const hasServicesWithImages = computed(
 
         <!-- Project Gallery -->
         <section
-            class="bg-gradient-to-b from-white via-blue-50/60 to-blue-100/30 py-16"
+            class="bg-gradient-to-b from-white via-blue-50/60 to-blue-100/30 py-20"
         >
             <div
                 class="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 lg:flex-row lg:items-end lg:justify-between"
@@ -263,9 +263,9 @@ const hasServicesWithImages = computed(
         </section>
 
         <!-- Value Proposition Section -->
-        <section class="bg-white py-16">
+        <section class="bg-white py-20">
             <div class="mx-auto w-full max-w-6xl px-6">
-                <div class="mb-12 text-center">
+                <div class="mb-16 text-center">
                     <p
                         class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
                     >
