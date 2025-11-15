@@ -2,7 +2,10 @@
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
 import { store as contactStore } from '@/routes/contact';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { Phone, Message, Location, Clock, User, ChatDotSquare } from '@element-plus/icons-vue';
+import type { FormInstance, FormRules } from 'element-plus';
+import { ElMessage } from 'element-plus';
 
 interface ContactInfo {
     phone: string;
@@ -32,6 +35,7 @@ const props = defineProps<{
     advisors: AdvisorCard[];
 }>();
 
+const formRef = ref<FormInstance>();
 const form = useForm({
     name: '',
     phone: '',
@@ -40,7 +44,43 @@ const form = useForm({
     content: '',
 });
 
+const rules: FormRules = {
+    name: [
+        { required: true, message: '请输入姓名', trigger: 'blur' },
+        { min: 2, max: 50, message: '姓名长度在 2 到 50 个字符', trigger: 'blur' }
+    ],
+    phone: [
+        { required: true, message: '请输入电话', trigger: 'blur' },
+        { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }
+    ],
+    email: [
+        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+    ],
+    content: [
+        { required: true, message: '请输入需求内容', trigger: 'blur' },
+        { min: 10, message: '需求内容至少 10 个字符', trigger: 'blur' }
+    ]
+};
+
 const flash = computed(() => usePage().props.flash as { type?: string; message?: string } | null);
+
+const submitForm = async () => {
+    if (!formRef.value) return;
+    
+    await formRef.value.validate((valid) => {
+        if (valid) {
+            form.post(contactStore().url, {
+                onSuccess: () => {
+                    form.reset('name', 'phone', 'company', 'email', 'content');
+                    ElMessage.success('提交成功！我们会尽快与您联系。');
+                },
+                onError: () => {
+                    ElMessage.error('提交失败，请检查表单信息。');
+                }
+            });
+        }
+    });
+};
 
 // 过滤 HTML 实体和空白
 const cleanText = (text: string | null): string => {
@@ -72,163 +112,220 @@ const cleanedAdvisors = computed(() =>
         <Head title="联系顾问" />
 
         <!-- Contact Section -->
-        <section class="bg-white py-16">
-            <div class="mx-auto grid w-full max-w-5xl gap-8 px-6 lg:grid-cols-2">
-                <!-- Contact Info -->
-                <div class="rounded-lg border border-blue-200 bg-gradient-to-br from-white to-blue-50 p-8 shadow-lg shadow-blue-200/20">
-                    <p class="text-xs uppercase tracking-widest font-semibold text-blue-600">CONTACT</p>
-                    <h1 class="mt-4 text-3xl font-bold text-slate-900">{{ cta.title }}</h1>
-                    <p class="mt-3 text-sm text-gray-600">
-                        {{ cta.description }}
-                    </p>
-                    <dl class="mt-6 space-y-4 text-sm text-gray-600">
-                        <div>
-                            <dt class="text-xs uppercase tracking-widest font-semibold text-blue-600">负责顾问</dt>
-                            <dd class="mt-1 font-semibold text-slate-900">
-                                {{ contact.advisor ?? '待分配' }}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-widest font-semibold text-blue-600">电话</dt>
-                            <dd class="mt-1 text-xl font-semibold text-blue-600">
-                                <a :href="`tel:${contact.phone}`" class="hover:text-blue-700 hover:underline">{{ contact.phone }}</a>
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-widest font-semibold text-blue-600">邮箱</dt>
-                            <dd class="mt-1">
-                                <a :href="`mailto:${contact.email}`" class="text-blue-600 hover:text-blue-700 hover:underline">{{ contact.email }}</a>
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-widest font-semibold text-blue-600">微信</dt>
-                            <dd class="mt-1">{{ contact.wechat }}</dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-widest font-semibold text-blue-600">地址</dt>
-                            <dd class="mt-1">{{ contact.address }}</dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-widest font-semibold text-blue-600">响应时间</dt>
-                            <dd class="mt-1">{{ contact.hours }}</dd>
-                        </div>
-                    </dl>
-                </div>
+        <section class="bg-gray-50 py-16">
+            <div class="mx-auto w-full max-w-5xl px-6">
+                <el-row :gutter="24">
+                    <!-- Contact Info -->
+                    <el-col :xs="24" :lg="12" class="mb-6 lg:mb-0">
+                        <el-card shadow="hover" class="h-full">
+                            <template #header>
+                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">CONTACT</el-text>
+                                <h1 class="mt-2 text-2xl font-bold">{{ cta.title }}</h1>
+                                <el-text class="text-sm">{{ cta.description }}</el-text>
+                            </template>
+                            
+                            <el-space direction="vertical" :size="16" class="w-full">
+                                <div>
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
+                                        <User class="w-4 h-4" />
+                                        负责顾问
+                                    </el-text>
+                                    <el-text class="block mt-2 font-semibold">
+                                        {{ contact.advisor ?? '待分配' }}
+                                    </el-text>
+                                </div>
+                                
+                                <el-divider class="my-2" />
+                                
+                                <div>
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
+                                        <Phone class="w-4 h-4" />
+                                        电话
+                                    </el-text>
+                                    <el-link :href="`tel:${contact.phone}`" type="primary" class="block mt-2 text-xl font-semibold">
+                                        {{ contact.phone }}
+                                    </el-link>
+                                </div>
+                                
+                                <el-divider class="my-2" />
+                                
+                                <div>
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
+                                        <Message class="w-4 h-4" />
+                                        邮箱
+                                    </el-text>
+                                    <el-link :href="`mailto:${contact.email}`" type="primary" class="block mt-2">
+                                        {{ contact.email }}
+                                    </el-link>
+                                </div>
+                                
+                                <el-divider class="my-2" />
+                                
+                                <div>
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
+                                        <ChatDotSquare class="w-4 h-4" />
+                                        微信
+                                    </el-text>
+                                    <el-text class="block mt-2">{{ contact.wechat }}</el-text>
+                                </div>
+                                
+                                <el-divider class="my-2" />
+                                
+                                <div>
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
+                                        <Location class="w-4 h-4" />
+                                        地址
+                                    </el-text>
+                                    <el-text class="block mt-2">{{ contact.address }}</el-text>
+                                </div>
+                                
+                                <el-divider class="my-2" />
+                                
+                                <div>
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold flex items-center gap-2">
+                                        <Clock class="w-4 h-4" />
+                                        响应时间
+                                    </el-text>
+                                    <el-text class="block mt-2">{{ contact.hours }}</el-text>
+                                </div>
+                            </el-space>
+                        </el-card>
+                    </el-col>
 
-                <!-- Contact Form -->
-                <div class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-8 shadow-lg shadow-blue-200/20">
-                    <h2 class="text-2xl font-bold text-slate-900">提交需求信息</h2>
-                    <p class="mt-2 text-sm text-gray-600">
-                        表单会写入系统联系人列表，与驻场顾问共享，确保状态一致。
-                    </p>
-                    <div
-                        v-if="flash?.message"
-                        class="mt-6 rounded-lg border border-blue-300 bg-blue-50 px-4 py-3 text-sm text-blue-700"
-                    >
-                        {{ flash.message }}
-                    </div>
-                    <form
-                        class="mt-8 space-y-6"
-                        @submit.prevent="form.post(contactStore().url, {
-                            onSuccess: () => form.reset('name', 'phone', 'company', 'email', 'content'),
-                        })"
-                    >
-                        <div class="grid gap-6 md:grid-cols-2">
-                            <label class="text-sm font-semibold text-slate-900">
-                                姓名 *
-                                <input
-                                    v-model="form.name"
-                                    type="text"
-                                    name="name"
-                                    class="mt-2 w-full rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm text-slate-900 placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
-                                />
-                                <span v-if="form.errors.name" class="mt-1 block text-xs text-blue-600">{{ form.errors.name }}</span>
-                            </label>
-                            <label class="text-sm font-semibold text-slate-900">
-                                电话 *
-                                <input
-                                    v-model="form.phone"
-                                    type="text"
-                                    name="phone"
-                                    class="mt-2 w-full rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm text-slate-900 placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
-                                />
-                                <span v-if="form.errors.phone" class="mt-1 block text-xs text-blue-600">{{ form.errors.phone }}</span>
-                            </label>
-                        </div>
-                        <div class="grid gap-6 md:grid-cols-2">
-                            <label class="text-sm font-semibold text-slate-900">
-                                公司 / 单位
-                                <input
-                                    v-model="form.company"
-                                    type="text"
-                                    name="company"
-                                    class="mt-2 w-full rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm text-slate-900 placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
-                                />
-                                <span v-if="form.errors.company" class="mt-1 block text-xs text-blue-600">{{ form.errors.company }}</span>
-                            </label>
-                            <label class="text-sm font-semibold text-slate-900">
-                                邮箱
-                                <input
-                                    v-model="form.email"
-                                    type="email"
-                                    name="email"
-                                    class="mt-2 w-full rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm text-slate-900 placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
-                                />
-                                <span v-if="form.errors.email" class="mt-1 block text-xs text-blue-600">{{ form.errors.email }}</span>
-                            </label>
-                        </div>
-                        <label class="text-sm font-semibold text-slate-900">
-                            需求内容 *
-                            <textarea
-                                v-model="form.content"
-                                name="content"
-                                rows="5"
-                                class="mt-2 w-full rounded-lg border border-blue-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
+                    <!-- Contact Form -->
+                    <el-col :xs="24" :lg="12">
+                        <el-card shadow="hover" class="h-full">
+                            <template #header>
+                                <h2 class="text-xl font-bold">提交需求信息</h2>
+                                <el-text class="text-sm">表单会写入系统联系人列表，与驻场顾问共享，确保状态一致。</el-text>
+                            </template>
+                            
+                            <el-alert
+                                v-if="flash?.message"
+                                :title="flash.message"
+                                type="success"
+                                class="mb-6"
+                                :closable="false"
                             />
-                            <span v-if="form.errors.content" class="mt-1 block text-xs text-blue-600">{{ form.errors.content }}</span>
-                        </label>
-                        <div class="flex flex-wrap items-center gap-4">
-                            <button
-                                type="submit"
-                                :disabled="form.processing"
-                                class="rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-400/50 transition hover:shadow-blue-400/80 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60 disabled:scale-100"
+                            
+                            <el-form
+                                ref="formRef"
+                                :model="form"
+                                :rules="rules"
+                                label-position="top"
+                                @submit.prevent="submitForm"
                             >
-                                {{ form.processing ? '提交中...' : '提交需求' }}
-                            </button>
-                            <p class="text-sm text-gray-600">
-                                或直接拨打
-                                <a :href="`tel:${contact.phone}`" class="font-semibold text-blue-600 hover:text-blue-700 hover:underline">{{ contact.phone }}</a>
-                            </p>
-                        </div>
-                    </form>
-                </div>
+                                <el-row :gutter="16">
+                                    <el-col :span="12">
+                                        <el-form-item label="姓名" prop="name" required>
+                                            <el-input
+                                                v-model="form.name"
+                                                placeholder="请输入您的姓名"
+                                                clearable
+                                            />
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <el-form-item label="电话" prop="phone" required>
+                                            <el-input
+                                                v-model="form.phone"
+                                                placeholder="请输入您的电话"
+                                                clearable
+                                            />
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                
+                                <el-row :gutter="16">
+                                    <el-col :span="12">
+                                        <el-form-item label="公司 / 单位" prop="company">
+                                            <el-input
+                                                v-model="form.company"
+                                                placeholder="请输入公司或单位名称"
+                                                clearable
+                                            />
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <el-form-item label="邮箱" prop="email">
+                                            <el-input
+                                                v-model="form.email"
+                                                placeholder="请输入您的邮箱"
+                                                clearable
+                                            />
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                
+                                <el-form-item label="需求内容" prop="content" required>
+                                    <el-input
+                                        v-model="form.content"
+                                        type="textarea"
+                                        :rows="5"
+                                        placeholder="请详细描述您的需求..."
+                                    />
+                                </el-form-item>
+                                
+                                <el-form-item>
+                                    <el-space>
+                                        <el-button
+                                            type="primary"
+                                            native-type="submit"
+                                            :loading="form.processing"
+                                            size="large"
+                                        >
+                                            {{ form.processing ? '提交中...' : '提交需求' }}
+                                        </el-button>
+                                        <el-text class="text-sm">
+                                            或直接拨打
+                                            <el-link :href="`tel:${contact.phone}`" type="primary">{{ contact.phone }}</el-link>
+                                        </el-text>
+                                    </el-space>
+                                </el-form-item>
+                            </el-form>
+                        </el-card>
+                    </el-col>
+                </el-row>
             </div>
         </section>
 
         <!-- Advisors Section -->
         <section class="bg-white py-16" v-if="advisors.length">
             <div class="mx-auto w-full max-w-5xl px-6">
-                <p class="text-xs font-semibold uppercase tracking-widest text-blue-600">ADVISORS</p>
-                <h2 class="mt-2 text-3xl font-bold text-slate-900">联系人列表</h2>
-                <div class="mt-8 grid gap-6 md:grid-cols-3">
-                    <article
+                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">ADVISORS</el-text>
+                <h2 class="mt-2 text-2xl font-bold">联系人列表</h2>
+                <el-row :gutter="24" class="mt-8">
+                    <el-col
                         v-for="advisor in cleanedAdvisors"
                         :key="advisor.name"
-                        class="rounded-lg border border-blue-200 bg-gradient-to-br from-white to-blue-50 p-6 shadow-lg shadow-blue-200/20 hover:border-blue-300 hover:shadow-blue-300/30 transition-all"
+                        :xs="24"
+                        :sm="12"
+                        :md="8"
+                        class="mb-6"
                     >
-                        <h3 class="text-lg font-bold text-blue-700">{{ advisor.name }}</h3>
-                        <p class="text-sm text-gray-600">{{ advisor.title }}</p>
-                        <p class="mt-2 text-sm font-medium text-blue-600">{{ advisor.expertise }}</p>
-                        <div class="mt-4 space-y-1 text-sm text-gray-600">
-                            <p v-if="advisor.phone">
-                                <span class="font-semibold text-blue-600">电话</span>：<a :href="`tel:${advisor.phone}`" class="text-blue-600 hover:text-blue-700 hover:underline">{{ advisor.phone }}</a>
-                            </p>
-                            <p v-if="advisor.wechat">
-                                <span class="font-semibold text-blue-600">微信</span>：{{ advisor.wechat }}
-                            </p>
-                        </div>
-                    </article>
-                </div>
+                        <el-card shadow="hover" class="h-full">
+                            <template #header>
+                                <h3 class="text-lg font-bold text-blue-600">{{ advisor.name }}</h3>
+                                <el-text type="info" class="text-sm">{{ advisor.title }}</el-text>
+                            </template>
+                            
+                            <el-tag type="primary" class="mb-4">{{ advisor.expertise }}</el-tag>
+                            
+                            <el-space direction="vertical" :size="8" class="w-full">
+                                <div v-if="advisor.phone" class="flex items-center gap-2">
+                                    <Phone class="w-4 h-4 text-blue-600" />
+                                    <el-link :href="`tel:${advisor.phone}`" type="primary" class="text-sm">
+                                        {{ advisor.phone }}
+                                    </el-link>
+                                </div>
+                                <div v-if="advisor.wechat" class="flex items-center gap-2">
+                                    <ChatDotSquare class="w-4 h-4 text-blue-600" />
+                                    <el-text class="text-sm">{{ advisor.wechat }}</el-text>
+                                </div>
+                            </el-space>
+                        </el-card>
+                    </el-col>
+                </el-row>
             </div>
         </section>
     </MarketingLayout>
