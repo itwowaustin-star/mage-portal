@@ -119,9 +119,11 @@ const cleanedAdvisors = computed(() =>
                     <el-col :xs="24" :lg="12" class="mb-6 lg:mb-0">
                         <el-card shadow="hover" class="h-full">
                             <template #header>
-                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">CONTACT</el-text>
-                                <h1 class="mt-2 text-2xl font-bold">{{ cta.title }}</h1>
-                                <el-text class="text-sm">{{ cta.description }}</el-text>
+                                <div class="space-y-3">
+                                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">CONTACT</el-text>
+                                    <h1 class="text-2xl font-bold">{{ cta.title }}</h1>
+                                    <el-text class="text-sm text-gray-600">{{ cta.description }}</el-text>
+                                </div>
                             </template>
                             
                             <el-space direction="vertical" :size="20" class="w-full">

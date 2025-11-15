@@ -85,51 +85,53 @@ const cleanedAdvantages = computed(() =>
                     style="animation-delay: 1.5s"
                 ></div>
             </div>
-            <div class="relative mx-auto w-full max-w-5xl px-6">
+            <div class="relative mx-auto w-full max-w-5xl px-6 text-center">
                 <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
                     ABOUT
                 </el-text>
-                <h1 class="mt-3 text-4xl font-bold drop-shadow-lg">
+                <h1 class="mt-4 text-4xl font-bold drop-shadow-lg">
                     {{ cleanedCompany.name }}
                 </h1>
-                <el-text class="block mt-3 text-base leading-relaxed">
+                <el-text class="block mt-4 text-base leading-relaxed text-gray-700">
                     {{ cleanedCompany.description }}
                 </el-text>
                 
-                <el-row :gutter="24" class="mt-8">
+                <el-row :gutter="24" class="mt-10">
                     <el-col :xs="24" :md="12">
-                        <el-card shadow="hover">
+                        <el-card shadow="hover" class="text-center">
                             <template #header>
                                 <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
                                     愿景
                                 </el-text>
                             </template>
-                            <el-text class="text-xl font-bold text-blue-700">
+                            <p class="text-lg font-semibold text-gray-800 leading-relaxed px-4">
                                 {{ cleanedCompany.vision }}
-                            </el-text>
+                            </p>
                         </el-card>
                     </el-col>
                     <el-col :xs="24" :md="12" class="mt-6 md:mt-0">
-                        <el-card shadow="hover">
+                        <el-card shadow="hover" class="text-center">
                             <template #header>
                                 <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
                                     使命
                                 </el-text>
                             </template>
-                            <el-text class="text-xl font-bold text-blue-700">
+                            <p class="text-lg font-semibold text-gray-800 leading-relaxed px-4">
                                 {{ cleanedCompany.mission }}
-                            </el-text>
+                            </p>
                         </el-card>
                     </el-col>
                 </el-row>
                 
                 <el-card shadow="hover" class="mt-6">
                     <template #header>
-                        <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                            定位关键词
-                        </el-text>
+                        <div class="text-center">
+                            <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
+                                定位关键词
+                            </el-text>
+                        </div>
                     </template>
-                    <div class="flex flex-wrap gap-3">
+                    <div class="flex flex-wrap justify-center gap-3">
                         <el-tag
                             v-for="item in cleanedCompany.positioning"
                             :key="item"
