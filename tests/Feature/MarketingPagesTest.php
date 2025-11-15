@@ -92,6 +92,43 @@ function seedPortalData(): void
         $table->string('linkhref')->nullable();
     });
 
+    Schema::connection('portal')->dropIfExists('mg_news');
+    Schema::connection('portal')->create('mg_news', function (Blueprint $table): void {
+        $table->id();
+        $table->string('title');
+        $table->string('description')->nullable();
+        $table->longText('content')->nullable();
+        $table->string('image')->nullable();
+        $table->string('status')->default('normal');
+        $table->integer('weigh')->default(0);
+        $table->integer('createtime')->nullable();
+        $table->integer('updatetime')->nullable();
+        $table->integer('deletetime')->nullable();
+    });
+
+    Schema::connection('portal')->dropIfExists('mg_faq');
+    Schema::connection('portal')->create('mg_faq', function (Blueprint $table): void {
+        $table->id();
+        $table->string('title');
+        $table->text('content');
+        $table->boolean('isOpen')->default(true);
+        $table->integer('createtime')->nullable();
+        $table->integer('updatetime')->nullable();
+        $table->integer('deletetime')->nullable();
+    });
+
+    Schema::connection('portal')->dropIfExists('mg_team');
+    Schema::connection('portal')->create('mg_team', function (Blueprint $table): void {
+        $table->id();
+        $table->string('department_name');
+        $table->string('leader_name')->nullable();
+        $table->string('leader_cert')->nullable();
+        $table->string('tags')->nullable();
+        $table->text('content')->nullable();
+        $table->text('summary')->nullable();
+        $table->integer('deletetime')->nullable();
+    });
+
     Schema::connection('portal')->dropIfExists('mg_config');
     Schema::connection('portal')->create('mg_config', function (Blueprint $table): void {
         $table->string('name')->primary();
@@ -139,6 +176,67 @@ function seedPortalData(): void
             'wechat' => 'undo-1030',
             'otherInfo' => '信息安全部部长',
             'content' => '<p>擅长渗透测试</p>',
+        ],
+    ]);
+
+    DB::connection('portal')->table('mg_news')->insert([
+        [
+            'title' => '攻防演练圆满收官',
+            'description' => '与多家央企联合完成攻防演练。',
+            'content' => '<p>实战演练数据来源 portal.</p>',
+            'status' => 'normal',
+            'weigh' => 10,
+            'createtime' => now()->subDays(2)->timestamp,
+        ],
+        [
+            'title' => '零信任平台发布',
+            'description' => '推出零信任防护平台。',
+            'content' => '<p>零信任产品发布。</p>',
+            'status' => 'normal',
+            'weigh' => 8,
+            'createtime' => now()->subWeek()->timestamp,
+        ],
+        [
+            'title' => '政务云安全升级',
+            'description' => '完成政务云关键区安全固化。',
+            'content' => '<p>政务云安全升级。</p>',
+            'status' => 'normal',
+            'weigh' => 6,
+            'createtime' => now()->subWeeks(2)->timestamp,
+        ],
+    ]);
+
+    DB::connection('portal')->table('mg_faq')->insert([
+        [
+            'title' => '如何对接门户系统？',
+            'content' => '<p>填写 API 凭证即可实时同步。</p>',
+            'isOpen' => 1,
+            'createtime' => now()->timestamp,
+        ],
+        [
+            'title' => '项目多久更新一次？',
+            'content' => '<p>每日凌晨自动同步。</p>',
+            'isOpen' => 1,
+            'createtime' => now()->subDay()->timestamp,
+        ],
+    ]);
+
+    DB::connection('portal')->table('mg_team')->insert([
+        [
+            'department_name' => '网络安全运营中心',
+            'leader_name' => '李强',
+            'leader_cert' => 'CISP',
+            'tags' => '安全运营,攻防演练',
+            'summary' => '负责攻防演练、蓝队巡检与 SOC 运营。',
+            'content' => '<p>核心团队负责 SOC 与攻防演练。</p>',
+        ],
+        [
+            'department_name' => '弱电工程部',
+            'leader_name' => '王敏',
+            'leader_cert' => 'PMP',
+            'tags' => '弱电,机房建设',
+            'summary' => '聚焦机房改造与弱电一体化交付。',
+            'content' => '<p>负责弱电施工。</p>',
         ],
     ]);
 }
