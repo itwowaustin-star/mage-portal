@@ -1,0 +1,20 @@
+{
+  "name": "mysql-mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MCP Server for MySQL 8.0.44 connection",
+  "main": "mcp-mysql-server.js",
+  "bin": {
+    "mysql-mcp-server": "./mcp-mysql-server.js"
+  },
+  "scripts": {
+    "start": "node mcp-mysql-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "mysql2": "^3.11.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

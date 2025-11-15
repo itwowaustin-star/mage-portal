@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
-        "dev": "vite",
+        "dev": "vite --host 192.168.31.18",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix"
@@ -31,12 +31,14 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.1.0",
+        "@modelcontextprotocol/sdk": "^1.22.0",
         "@openai/codex": "^0.58.0",
         "@vueuse/core": "^12.8.2",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "laravel-vite-plugin": "^2.0.0",
         "lucide-vue-next": "^0.468.0",
+        "mysql2": "^3.15.3",
         "reka-ui": "^2.4.1",
         "tailwind-merge": "^3.2.0",
         "tailwindcss": "^4.1.1",

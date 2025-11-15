@@ -1,0 +1,36 @@
+COLOR SCHEME: Blue-White Professional Theme
+===============================================
+
+PRIMARY COLORS:
+- Dark backgrounds: slate-950/slate-900 → white/gray-50
+- Primary accent: red-600/red-500 → blue-600/blue-500  
+- Secondary accent: red-400 → blue-600
+- Light accent: red-300 → blue-500
+
+BORDER COLORS:
+- border-red-500/* → border-blue-300/border-blue-400
+- border-red-400/* → border-blue-200/border-blue-300
+
+BACKGROUND COLORS:
+- bg-red-950/* → bg-blue-50/bg-blue-100
+- bg-red-600/* → bg-blue-600
+- from-red-950 → from-blue-100
+- to-red-950 → to-white/to-gray-50
+
+TEXT COLORS:
+- text-white → text-gray-900
+- text-gray-300/gray-200 → text-gray-700/gray-600
+- text-red-300/red-400 → text-blue-600
+- text-gray-400 → text-gray-500
+
+SHADOW COLORS:
+- shadow-red-600/* → shadow-blue-300/*
+
+FILES TO UPDATE:
+1. resources/js/layouts/MarketingLayout.vue ✓ DONE
+2. resources/js/Pages/Home/Index.vue 
+3. resources/js/Pages/Services/Index.vue
+4. resources/js/pages/Services/Show.vue
+5. resources/js/Pages/Team/Index.vue
+6. resources/js/Pages/Contact/Index.vue
+7. resources/js/Pages/About/Index.vue
