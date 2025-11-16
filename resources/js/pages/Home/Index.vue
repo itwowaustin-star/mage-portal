@@ -77,7 +77,7 @@ const hasServicesWithImages = computed(
 
 <template>
     <MarketingLayout>
-        <Head title="山西马格网络1 · TechOps 门户" />
+        <Head title="山西马格网络 · 整体信息化服务" />
 
         <!-- Hero Section -->
         <section
@@ -109,11 +109,23 @@ const hasServicesWithImages = computed(
                             {{ props.hero.title }}
                         </h1>
                         <p class="mt-4 text-lg text-slate-700">
-                            {{ props.hero.subtitle }}
+                            面向政府单位、产业园区与大型民企的“交付+运营”一体化团队
                         </p>
                         <p class="mt-3 text-base leading-relaxed text-gray-600">
-                            {{ props.hero.description }}
+                            我们把网络安全、弱电工程、机房运维与软件研发统一在一份数据底座之上，帮助业务负责人更快通过验收、减少多供应商对接成本，并将攻防演练、等保测评、运维巡检等工作透明化。
                         </p>
+                        <ul class="mt-5 space-y-2 text-sm text-slate-600">
+                            <li>
+                                • 适用于即将投运的新基建/军民融合/产业园项目
+                            </li>
+                            <li>
+                                • 需要快速完成合规评估、运维移交、长期托管的客户
+                            </li>
+                            <li>
+                                •
+                                希望把多条线能力做成“一个入口、一个联系人”的决策人
+                            </li>
+                        </ul>
                         <div class="mt-8 flex flex-wrap gap-4">
                             <Link
                                 href="/services"
@@ -164,9 +176,70 @@ const hasServicesWithImages = computed(
                             正在同步最新战报…
                         </div>
                         <p class="mt-4 text-sm text-gray-600">
-                            情报、方案、迭代计划都由统一平台驱动，任何外部展示都能追溯到同一份事实源。
+                            情报、方案、迭代计划都由统一平台驱动，任何对外承诺都可追溯到后台的同一份事实。
                         </p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audience Section -->
+        <section class="bg-white py-16">
+            <div class="mx-auto w-full max-w-6xl px-6">
+                <div class="mb-10 text-center">
+                    <p
+                        class="text-xs font-semibold tracking-widest text-blue-600 uppercase"
+                    >
+                        我们通常与谁合作
+                    </p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">
+                        3 种典型场景
+                    </h2>
+                    <p class="mt-2 text-sm text-gray-600">
+                        用客户语言讲清楚需求、周期与“可交付成果”，降低内部汇报成本。
+                    </p>
+                </div>
+                <div class="grid gap-6 md:grid-cols-3">
+                    <article
+                        class="rounded-2xl border border-blue-100 bg-blue-50/50 p-6 shadow-sm shadow-blue-100/60"
+                    >
+                        <p class="text-xs font-medium text-blue-600 uppercase">
+                            园区/政府单位
+                        </p>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            合规与验收
+                        </h3>
+                        <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                            交付可直接套用到攻防演练、等保/信创测评、住建或能源监管检查，准备材料+现场支撑按节点输出。
+                        </p>
+                    </article>
+                    <article
+                        class="rounded-2xl border border-blue-100 bg-blue-50/50 p-6 shadow-sm shadow-blue-100/60"
+                    >
+                        <p class="text-xs font-medium text-blue-600 uppercase">
+                            民营集团
+                        </p>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            总部统一改造
+                        </h3>
+                        <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                            统一规划信息化/弱电/安防建设标准，提供“年度预算+季度里程碑+托管服务”组合，可复制到二级单位。
+                        </p>
+                    </article>
+                    <article
+                        class="rounded-2xl border border-blue-100 bg-blue-50/50 p-6 shadow-sm shadow-blue-100/60"
+                    >
+                        <p class="text-xs font-medium text-blue-600 uppercase">
+                            运维托管
+                        </p>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            长期可见的运营报告
+                        </h3>
+                        <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                            提供 7×24
+                            运维、应急与驻场顾问，所有巡检、风险和交付记录都进统一平台，方便管理层追踪。
+                        </p>
+                    </article>
                 </div>
             </div>
         </section>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { Calendar } from '@element-plus/icons-vue';
 
 interface CompanyInfo {
     name: string;
@@ -31,8 +30,9 @@ const props = defineProps<{
 
 const cleanText = (text: string | null): string => {
     if (!text) return '';
+
     return text
-        .replace(/&nbsp;/g, '')
+        .replace(/&nbsp;/g, ' ')
         .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
@@ -70,146 +70,165 @@ const cleanedAdvantages = computed(() =>
 
 <template>
     <MarketingLayout>
-        <Head title="关于我们 · 数据驱动" />
+        <Head title="关于我们 · 为客户交付看得见的结果" />
 
-        <!-- Company Info -->
         <section
-            class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50/30 py-16"
+            class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50/40 py-20"
         >
-            <div class="absolute inset-0 overflow-hidden">
+            <div class="pointer-events-none absolute inset-0">
                 <div
-                    class="absolute top-1/4 -left-32 h-80 w-80 animate-pulse rounded-full bg-blue-500/10 opacity-40 blur-3xl"
+                    class="absolute top-1/4 left-1/3 h-80 w-80 rounded-full bg-blue-400/10 blur-3xl"
                 ></div>
                 <div
-                    class="absolute right-1/4 bottom-1/3 h-96 w-96 animate-pulse rounded-full bg-blue-400/10 opacity-30 blur-3xl"
-                    style="animation-delay: 1.5s"
+                    class="absolute right-1/4 bottom-1/3 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"
                 ></div>
             </div>
             <div class="relative mx-auto w-full max-w-5xl px-6 text-center">
-                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                    ABOUT
-                </el-text>
-                <h1 class="mt-4 text-4xl font-bold drop-shadow-lg">
+                <p
+                    class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                >
+                    About Us
+                </p>
+                <h1 class="mt-5 text-4xl font-bold text-slate-900 drop-shadow">
                     {{ cleanedCompany.name }}
                 </h1>
-                <el-text class="block mt-4 text-base leading-relaxed text-gray-700">
+                <p class="mt-4 text-base leading-relaxed text-slate-600">
                     {{ cleanedCompany.description }}
-                </el-text>
-                
-                <el-row :gutter="24" class="mt-10">
-                    <el-col :xs="24" :md="12">
-                        <el-card shadow="hover" class="text-center">
-                            <template #header>
-                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                    愿景
-                                </el-text>
-                            </template>
-                            <p class="text-lg font-semibold text-gray-800 leading-relaxed px-4">
-                                {{ cleanedCompany.vision }}
-                            </p>
-                        </el-card>
-                    </el-col>
-                    <el-col :xs="24" :md="12" class="mt-6 md:mt-0">
-                        <el-card shadow="hover" class="text-center">
-                            <template #header>
-                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                    使命
-                                </el-text>
-                            </template>
-                            <p class="text-lg font-semibold text-gray-800 leading-relaxed px-4">
-                                {{ cleanedCompany.mission }}
-                            </p>
-                        </el-card>
-                    </el-col>
-                </el-row>
-                
-                <el-card shadow="hover" class="mt-6">
-                    <template #header>
-                        <div class="text-center">
-                            <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                                定位关键词
-                            </el-text>
-                        </div>
-                    </template>
-                    <div class="flex flex-wrap justify-center gap-3">
-                        <el-tag
-                            v-for="item in cleanedCompany.positioning"
-                            :key="item"
-                            type="primary"
-                            size="large"
-                            effect="light"
-                        >
-                            {{ item }}
-                        </el-tag>
-                    </div>
-                </el-card>
-            </div>
-        </section>
-
-        <!-- Timeline -->
-        <section
-            v-if="cleanedTimeline.length"
-            class="bg-gray-50 py-16"
-        >
-            <div class="mx-auto w-full max-w-5xl px-6">
-                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                    MILESTONES
-                </el-text>
-                <h2 class="mt-3 text-2xl font-bold">
-                    项目历程与关键节点
-                </h2>
-                <el-timeline class="mt-8">
-                    <el-timeline-item
-                        v-for="item in cleanedTimeline"
-                        :key="`${item.year}-${item.title}`"
-                        :timestamp="item.year"
-                        placement="top"
-                        :icon="Calendar"
-                        type="primary"
-                        size="large"
+                </p>
+                <div class="mt-8 grid gap-4 md:grid-cols-2">
+                    <article
+                        class="rounded-2xl border border-blue-100 bg-white/95 px-6 py-5 shadow-lg shadow-blue-100/60"
                     >
-                        <el-card shadow="hover">
-                            <h3 class="text-lg font-bold">
-                                {{ item.title }}
-                            </h3>
-                            <el-text class="block mt-2 text-sm leading-relaxed">
-                                {{ item.description }}
-                            </el-text>
-                        </el-card>
-                    </el-timeline-item>
-                </el-timeline>
+                        <p
+                            class="text-xs font-semibold tracking-[0.3em] text-blue-600 uppercase"
+                        >
+                            愿景
+                        </p>
+                        <p
+                            class="mt-2 text-lg leading-relaxed font-bold text-slate-900"
+                        >
+                            {{ cleanedCompany.vision }}
+                        </p>
+                    </article>
+                    <article
+                        class="rounded-2xl border border-blue-100 bg-white/95 px-6 py-5 shadow-lg shadow-blue-100/60"
+                    >
+                        <p
+                            class="text-xs font-semibold tracking-[0.3em] text-blue-600 uppercase"
+                        >
+                            使命
+                        </p>
+                        <p
+                            class="mt-2 text-lg leading-relaxed font-bold text-slate-900"
+                        >
+                            {{ cleanedCompany.mission }}
+                        </p>
+                    </article>
+                </div>
+                <div class="mt-6 flex flex-wrap justify-center gap-3">
+                    <span
+                        v-for="item in cleanedCompany.positioning"
+                        :key="item"
+                        class="rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-xs font-semibold text-blue-700"
+                    >
+                        {{ item }}
+                    </span>
+                </div>
             </div>
         </section>
 
-        <!-- Team Capabilities -->
         <section class="bg-white py-16">
             <div class="mx-auto w-full max-w-5xl px-6">
-                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">
-                    TEAM CAPABILITIES
-                </el-text>
-                <h2 class="mt-3 text-2xl font-bold">
-                    驻场部门的职责说明
-                </h2>
-                <el-row :gutter="24" class="mt-8">
-                    <el-col
-                        v-for="item in cleanedAdvantages"
-                        :key="item.title"
-                        :xs="24"
-                        :md="8"
-                        class="mb-6"
+                <div class="mb-10 text-center">
+                    <p
+                        class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
                     >
-                        <el-card shadow="hover" class="h-full">
-                            <template #header>
-                                <h3 class="text-lg font-bold text-blue-600">
-                                    {{ item.title }}
-                                </h3>
-                            </template>
-                            <el-text class="leading-relaxed">
-                                {{ item.description }}
-                            </el-text>
-                        </el-card>
-                    </el-col>
-                </el-row>
+                        What We Promise
+                    </p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">
+                        客户选择我们的原因
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600">
+                        我们把复杂的技术语言翻译成“可以交付、可追踪、好对内汇报”的成果。
+                    </p>
+                </div>
+                <div class="grid gap-6 md:grid-cols-3">
+                    <article
+                        v-for="advantage in cleanedAdvantages"
+                        :key="advantage.title"
+                        class="rounded-2xl border border-blue-100 bg-blue-50/50 p-6 shadow-sm shadow-blue-100/60"
+                    >
+                        <h3 class="text-lg font-bold text-slate-900">
+                            {{ advantage.title }}
+                        </h3>
+                        <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                            {{ advantage.description }}
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section v-if="cleanedTimeline.length" class="bg-slate-50 py-16">
+            <div class="mx-auto w-full max-w-5xl px-6">
+                <div class="mb-8 text-center">
+                    <p
+                        class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                    >
+                        Milestones
+                    </p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">
+                        关键节点与代表项目
+                    </h2>
+                </div>
+                <div class="space-y-4">
+                    <article
+                        v-for="item in cleanedTimeline"
+                        :key="`${item.year}-${item.title}`"
+                        class="rounded-2xl border border-blue-100 bg-white/90 px-6 py-4 shadow-sm shadow-blue-100/60"
+                    >
+                        <p
+                            class="text-xs font-semibold tracking-[0.2em] text-blue-600 uppercase"
+                        >
+                            {{ item.year }}
+                        </p>
+                        <h3 class="mt-1 text-lg font-bold text-slate-900">
+                            {{ item.title }}
+                        </h3>
+                        <p class="mt-2 text-sm leading-relaxed text-slate-600">
+                            {{ item.description }}
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white py-16">
+            <div
+                class="mx-auto flex w-full max-w-5xl flex-col gap-6 rounded-3xl border border-blue-100 bg-blue-50/50 p-10 px-6 text-center shadow-inner shadow-blue-100/60"
+            >
+                <h2 class="text-2xl font-bold text-slate-900">
+                    我们期待与你一起完成的，是业务成果而不是 PPT
+                </h2>
+                <p class="text-sm text-slate-600">
+                    提供行业参考案例、预算模板、验收材料样板，协助你在内部快速推动项目立项与上线。
+                </p>
+                <div
+                    class="flex flex-wrap justify-center gap-4 text-sm font-semibold"
+                >
+                    <Link
+                        href="/services"
+                        class="rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-3 text-white shadow-lg shadow-blue-400/40 transition hover:shadow-blue-400/80"
+                    >
+                        查看服务矩阵
+                    </Link>
+                    <Link
+                        href="/contact"
+                        class="rounded-full border border-blue-200 px-8 py-3 text-blue-600 hover:border-blue-400"
+                    >
+                        安排顾问对接
+                    </Link>
+                </div>
             </div>
         </section>
     </MarketingLayout>

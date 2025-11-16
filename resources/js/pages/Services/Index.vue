@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ArrowRight } from '@element-plus/icons-vue';
 
 interface Service {
     title: string;
@@ -19,118 +18,158 @@ defineProps<{
 
 <template>
     <MarketingLayout>
-        <Head title="整体安全与研发服务矩阵" />
+        <Head title="服务矩阵 · 聚焦客户成果" />
 
-        <!-- Header -->
-        <section class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50/30 py-16">
-            <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute top-1/3 left-1/3 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-                <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl opacity-30 animate-pulse" style="animation-delay: 1.5s;"></div>
+        <!-- Hero -->
+        <section
+            class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50/40 py-20"
+        >
+            <div class="pointer-events-none absolute inset-0">
+                <div
+                    class="absolute top-1/3 left-1/3 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"
+                ></div>
+                <div
+                    class="absolute right-1/4 bottom-1/4 h-72 w-72 rounded-full bg-blue-400/10 blur-3xl"
+                ></div>
             </div>
-            <div class="relative mx-auto w-full max-w-5xl px-6 text-center">
-                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">SERVICE GRAPH</el-text>
-                <h1 class="mt-4 text-4xl font-bold drop-shadow-lg">一份数据源 · 全栈交付矩阵</h1>
-                <el-text class="block mt-3 text-sm">
-                    所有卡片均与后台数据实时联动，涵盖网络安全、弱电系统、机房运维与软件研发等多条战线。
-                </el-text>
+            <div class="relative mx-auto w-full max-w-4xl px-6 text-center">
+                <p
+                    class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                >
+                    Service Matrix
+                </p>
+                <h1 class="mt-5 text-4xl font-bold text-slate-900 drop-shadow">
+                    围绕客户成果拆分能力，而不是堆砌技术
+                </h1>
+                <p class="mt-4 text-base leading-relaxed text-slate-600">
+                    每一项服务卡片都与后台项目数据实时同步，并附带“适用场景 +
+                    预期结果 + 交付承诺”，方便客户内部决策。
+                </p>
             </div>
         </section>
 
-        <!-- Services Grid -->
-        <section class="bg-gray-50 py-20">
+        <!-- Services List -->
+        <section class="bg-slate-50 py-20">
+            <div class="mx-auto w-full max-w-6xl space-y-8 px-6">
+                <article
+                    v-for="service in services"
+                    :key="service.slug"
+                    class="grid gap-8 rounded-3xl border border-blue-100 bg-white/95 p-8 shadow-lg shadow-blue-100/70 lg:grid-cols-[3fr,2fr]"
+                >
+                    <div class="space-y-4">
+                        <p
+                            class="text-xs font-semibold tracking-[0.3em] text-blue-600 uppercase"
+                        >
+                            Service
+                        </p>
+                        <h2 class="text-2xl font-bold text-slate-900">
+                            {{ service.title }}
+                        </h2>
+                        <p class="text-base leading-relaxed text-slate-700">
+                            {{ service.excerpt }}
+                        </p>
+                        <p class="text-sm text-slate-500">
+                            {{ service.description }}
+                        </p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span
+                                v-for="tag in service.tags"
+                                :key="`${service.slug}-${tag}`"
+                                class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
+                            >
+                                {{ tag }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space-y-5">
+                        <img
+                            v-if="service.image"
+                            :src="service.image"
+                            :alt="service.title"
+                            class="h-52 w-full rounded-2xl border border-blue-100 object-cover"
+                        />
+                        <div
+                            v-else
+                            class="grid h-52 place-items-center rounded-2xl border border-dashed border-blue-100 text-sm text-slate-400"
+                        >
+                            暂无项目视觉
+                        </div>
+                        <button
+                            type="button"
+                            class="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-400/50 transition hover:shadow-blue-400/80"
+                            @click="router.visit(`/services/${service.slug}`)"
+                        >
+                            查看交付详情
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="bg-white py-16">
             <div class="mx-auto w-full max-w-6xl px-6">
-                <div class="space-y-8">
-                    <el-card
-                        v-for="service in services"
-                        :key="service.slug"
-                        shadow="hover"
-                        class="overflow-hidden transition-all hover:-translate-y-1"
+                <div class="mb-10 text-center">
+                    <p
+                        class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
                     >
-                        <el-row :gutter="32" align="middle">
-                            <el-col :xs="24" :lg="16">
-                                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">SERVICE</el-text>
-                                <h2 class="mt-3 text-2xl font-bold">{{ service.title }}</h2>
-                                <el-text class="block mt-4 text-base leading-relaxed">{{ service.excerpt }}</el-text>
-                                
-                                <!-- Description with better readability -->
-                                <el-alert
-                                    :title="service.description"
-                                    type="info"
-                                    :closable="false"
-                                    class="mt-6"
-                                    effect="light"
-                                />
-
-                                <!-- Tags -->
-                                <div class="mt-6 flex flex-wrap gap-2">
-                                    <el-tag
-                                        v-for="tag in service.tags"
-                                        :key="`${service.slug}-${tag}`"
-                                        type="primary"
-                                        effect="light"
-                                        size="large"
-                                    >
-                                        {{ tag }}
-                                    </el-tag>
-                                </div>
-                            </el-col>
-
-                            <!-- Image & CTA -->
-                            <el-col :xs="24" :lg="8" class="mt-8 lg:mt-0">
-                                <div class="space-y-4">
-                                    <el-image
-                                        v-if="service.image"
-                                        :src="service.image"
-                                        :alt="service.title"
-                                        fit="cover"
-                                        class="w-full h-56 rounded-lg border border-blue-100"
-                                    >
-                                        <template #error>
-                                            <div class="flex items-center justify-center h-full bg-gray-100 rounded-lg">
-                                                <el-text type="info">暂无图片</el-text>
-                                            </div>
-                                        </template>
-                                    </el-image>
-                                    <div v-else class="flex items-center justify-center h-56 bg-gray-100 rounded-lg border border-gray-200">
-                                        <el-text type="info">暂无视觉素材</el-text>
-                                    </div>
-                                    <el-button
-                                        type="primary"
-                                        size="large"
-                                        class="w-full"
-                                        @click="router.visit(`/services/${service.slug}`)"
-                                    >
-                                        查看详情
-                                        <el-icon class="ml-2"><ArrowRight /></el-icon>
-                                    </el-button>
-                                </div>
-                            </el-col>
-                        </el-row>
-                    </el-card>
+                        Cooperation Flow
+                    </p>
+                    <h2 class="mt-3 text-3xl font-bold text-slate-900">
+                        我们如何与客户共创成果
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600">
+                        把顾问话术转换成项目负责人听得懂的里程碑、材料和责任清单。
+                    </p>
+                </div>
+                <div class="grid gap-6 md:grid-cols-3">
+                    <article
+                        v-for="step in steps"
+                        :key="step.title"
+                        class="rounded-2xl border border-blue-100 bg-blue-50/50 p-6 text-sm leading-relaxed text-slate-700 shadow-sm shadow-blue-100/60"
+                    >
+                        <p class="text-xs font-semibold text-blue-600">
+                            {{ step.title }}
+                        </p>
+                        <p class="mt-2 text-base font-bold text-slate-900">
+                            {{ step.detail.split('，')[0] }}
+                        </p>
+                        <p class="mt-1 text-sm text-slate-600">
+                            {{ step.detail.split('，').slice(1).join('，') }}
+                        </p>
+                    </article>
                 </div>
             </div>
         </section>
 
         <!-- Bottom CTA -->
-        <section class="bg-white py-12">
-            <div class="mx-auto w-full max-w-5xl px-6">
-                <el-card shadow="never" class="text-center bg-gradient-to-br from-blue-50 to-white">
-                    <h2 class="text-2xl font-bold">
-                        找到适合的解决方案？
-                    </h2>
-                    <el-text class="block max-w-2xl mx-auto mt-4">
-                        联系我们的技术团队，讨论如何将这些能力应用到你的业务场景。
-                    </el-text>
-                    <el-button
-                        type="primary"
-                        size="large"
-                        class="mt-6"
-                        :icon="ArrowRight"
-                        @click="router.visit('/contact')"
+        <section class="bg-gradient-to-b from-blue-50 to-white py-16">
+            <div
+                class="mx-auto w-full max-w-4xl rounded-3xl border border-blue-100 bg-white/95 p-10 text-center shadow-xl shadow-blue-100/70"
+            >
+                <h2 class="text-2xl font-bold text-slate-900">
+                    需要更贴近业务的方案？
+                </h2>
+                <p class="mt-3 text-sm text-slate-600">
+                    我们可以先为你梳理现状 + 目标 +
+                    关键验收项，再匹配合适的项目组合与顾问团队。
+                </p>
+                <div
+                    class="mt-6 flex flex-wrap justify-center gap-4 text-sm font-semibold"
+                >
+                    <Link
+                        href="/contact"
+                        class="rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-3 text-white shadow-lg shadow-blue-400/40 transition hover:shadow-blue-400/80"
                     >
-                        安排对接
-                    </el-button>
-                </el-card>
+                        预约方案沟通
+                    </Link>
+                    <Link
+                        href="/services"
+                        class="rounded-full border border-blue-200 px-8 py-3 text-blue-600 hover:border-blue-400"
+                    >
+                        下载服务能力简表
+                    </Link>
+                </div>
             </div>
         </section>
     </MarketingLayout>
