@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
+import { ChatDotSquare, Phone, User } from '@element-plus/icons-vue';
 import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { Phone, ChatDotSquare, User } from '@element-plus/icons-vue';
 
 interface TeamMember {
     name: string;
@@ -34,24 +34,36 @@ const cleanText = (text: string | null): string => {
         .trim();
 };
 
-const cleanedMembers = computed(() => 
-    props.members.map(member => ({
+const cleanedMembers = computed(() =>
+    props.members.map((member) => ({
         ...member,
         name: cleanText(member.name),
         title: cleanText(member.title),
         expertise: cleanText(member.expertise),
         phone: cleanText(member.phone),
         wechat: cleanText(member.wechat),
-    }))
+    })),
 );
 
-const cleanedPillars = computed(() => 
-    props.pillars.map(pillar => ({
+const cleanedPillars = computed(() =>
+    props.pillars.map((pillar) => ({
         ...pillar,
         title: cleanText(pillar.title),
         body: cleanText(pillar.body),
-    }))
+    })),
 );
+
+const isDialable = (phone: string | null): boolean => {
+    if (!phone) {
+        return false;
+    }
+
+    if (phone.includes('*')) {
+        return false;
+    }
+
+    return /\d/.test(phone);
+};
 </script>
 
 <template>
@@ -59,15 +71,28 @@ const cleanedPillars = computed(() =>
         <Head title="顾问团队" />
 
         <!-- Header -->
-        <section class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50/30 py-16">
+        <section
+            class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-50/30 py-16"
+        >
             <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl opacity-40 animate-pulse"></div>
-                <div class="absolute bottom-1/3 right-1/3 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl opacity-30 animate-pulse" style="animation-delay: 1.5s;"></div>
+                <div
+                    class="absolute top-1/4 left-1/4 h-72 w-72 animate-pulse rounded-full bg-blue-500/10 opacity-40 blur-3xl"
+                ></div>
+                <div
+                    class="absolute right-1/3 bottom-1/3 h-80 w-80 animate-pulse rounded-full bg-blue-400/10 opacity-30 blur-3xl"
+                    style="animation-delay: 1.5s"
+                ></div>
             </div>
             <div class="relative mx-auto w-full max-w-5xl px-6 text-center">
-                <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">ADVISORS</el-text>
-                <h1 class="mt-4 text-4xl font-bold drop-shadow-lg">驻场顾问信息实时同步</h1>
-                <el-text class="block mt-3">
+                <el-text
+                    type="primary"
+                    class="text-xs font-semibold tracking-widest uppercase"
+                    >ADVISORS</el-text
+                >
+                <h1 class="mt-4 text-4xl font-bold drop-shadow-lg">
+                    驻场顾问信息实时同步
+                </h1>
+                <el-text class="mt-3 block">
                     后台录入的联系人会直接展示在这里，确保所有渠道使用同一组电话与微信。
                 </el-text>
             </div>
@@ -85,41 +110,88 @@ const cleanedPillars = computed(() =>
                         :lg="8"
                         class="mb-8"
                     >
-                        <el-card shadow="hover" class="h-full transition-all hover:-translate-y-1">
+                        <el-card
+                            shadow="hover"
+                            class="h-full transition-all hover:-translate-y-1"
+                        >
                             <template #header>
                                 <div class="flex items-center gap-4">
-                                    <el-avatar :size="56" class="bg-blue-100 text-blue-600">
+                                    <el-avatar
+                                        :size="56"
+                                        class="bg-blue-100 text-blue-600"
+                                    >
                                         <el-icon :size="32"><User /></el-icon>
                                     </el-avatar>
                                     <div class="flex-1">
-                                        <h2 class="text-xl font-bold">{{ member.name }}</h2>
-                                        <el-text type="info" class="text-sm">{{ member.title }}</el-text>
+                                        <h2 class="text-xl font-bold">
+                                            {{ member.name }}
+                                        </h2>
+                                        <el-text type="info" class="text-sm">{{
+                                            member.title
+                                        }}</el-text>
                                     </div>
                                 </div>
                             </template>
-                            
+
                             <div class="space-y-4">
-                                <div class="text-center">
-                                    <el-tag type="primary" size="large">{{ member.expertise }}</el-tag>
+                                <div class="px-2">
+                                    <div
+                                        class="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-center text-sm leading-relaxed text-blue-700"
+                                    >
+                                        {{ member.expertise }}
+                                    </div>
                                 </div>
-                                
+
                                 <el-divider class="my-4" />
-                                
+
                                 <div class="space-y-3">
-                                    <div v-if="member.phone" class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                                        <el-icon color="#2563eb" :size="18"><Phone /></el-icon>
+                                    <div
+                                        v-if="member.phone"
+                                        class="flex items-center gap-3 rounded-lg bg-blue-50 p-3"
+                                    >
+                                        <el-icon color="#2563eb" :size="18"
+                                            ><Phone
+                                        /></el-icon>
                                         <div class="flex-1">
-                                            <el-text class="text-xs text-gray-600 block">电话</el-text>
-                                            <el-link :href="`tel:${member.phone}`" type="primary" class="text-sm font-semibold">
+                                            <el-text
+                                                class="block text-xs text-gray-600"
+                                                >电话</el-text
+                                            >
+                                            <template
+                                                v-if="isDialable(member.phone)"
+                                            >
+                                                <el-link
+                                                    :href="`tel:${member.phone}`"
+                                                    type="primary"
+                                                    class="text-sm font-semibold"
+                                                >
+                                                    {{ member.phone }}
+                                                </el-link>
+                                            </template>
+                                            <el-text
+                                                v-else
+                                                class="text-sm font-semibold text-gray-900"
+                                            >
                                                 {{ member.phone }}
-                                            </el-link>
+                                            </el-text>
                                         </div>
                                     </div>
-                                    <div v-if="member.wechat" class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                                        <el-icon color="#2563eb" :size="18"><ChatDotSquare /></el-icon>
+                                    <div
+                                        v-if="member.wechat"
+                                        class="flex items-center gap-3 rounded-lg bg-blue-50 p-3"
+                                    >
+                                        <el-icon color="#2563eb" :size="18"
+                                            ><ChatDotSquare
+                                        /></el-icon>
                                         <div class="flex-1">
-                                            <el-text class="text-xs text-gray-600 block">微信</el-text>
-                                            <el-text class="text-sm font-semibold">{{ member.wechat }}</el-text>
+                                            <el-text
+                                                class="block text-xs text-gray-600"
+                                                >微信</el-text
+                                            >
+                                            <el-text
+                                                class="text-sm font-semibold"
+                                                >{{ member.wechat }}</el-text
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -133,8 +205,12 @@ const cleanedPillars = computed(() =>
         <!-- Team Pillars -->
         <section class="bg-white py-20">
             <div class="mx-auto w-full max-w-6xl px-6">
-                <div class="text-center mb-12">
-                    <el-text type="primary" class="text-xs uppercase tracking-widest font-semibold">TEAM PILLARS</el-text>
+                <div class="mb-12 text-center">
+                    <el-text
+                        type="primary"
+                        class="text-xs font-semibold tracking-widest uppercase"
+                        >TEAM PILLARS</el-text
+                    >
                     <h2 class="mt-3 text-3xl font-bold">部门职责清晰透明</h2>
                 </div>
                 <el-row :gutter="24">
@@ -145,11 +221,18 @@ const cleanedPillars = computed(() =>
                         :md="8"
                         class="mb-6"
                     >
-                        <el-card shadow="hover" class="h-full transition-all hover:-translate-y-1">
+                        <el-card
+                            shadow="hover"
+                            class="h-full transition-all hover:-translate-y-1"
+                        >
                             <template #header>
-                                <h3 class="text-xl font-bold text-blue-600">{{ pillar.title }}</h3>
+                                <h3 class="text-xl font-bold text-blue-600">
+                                    {{ pillar.title }}
+                                </h3>
                             </template>
-                            <el-text class="leading-relaxed text-gray-700">{{ pillar.body }}</el-text>
+                            <el-text class="leading-relaxed text-gray-700">{{
+                                pillar.body
+                            }}</el-text>
                         </el-card>
                     </el-col>
                 </el-row>

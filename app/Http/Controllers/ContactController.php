@@ -27,15 +27,15 @@ class ContactController extends Controller
             ->map(fn (PortalAdvisor $advisor) => [
                 'name' => $advisor->name,
                 'title' => $advisor->otherInfo,
-                'phone' => $advisor->phone,
+                'phone' => $this->maskMobile($advisor->phone),
                 'wechat' => $advisor->wechat,
                 'expertise' => $advisor->expertise,
             ]);
 
         return Inertia::render('Contact/Index', [
             'contact' => [
-                'phone' => $primaryAdvisor?->phone ?? '暂无',
-                'email' => 'contact@magenetwork.cn',
+                'phone' => $this->maskMobile($primaryAdvisor?->phone) ?? '暂无',
+                'email' => 'sxmgwl@163.com',
                 'address' => '山西省朔州市开发区恒晟大厦 1204/1304/1703',
                 'hours' => '数据维护与关键任务支持 7×24',
                 'wechat' => $primaryAdvisor?->wechat ?? '',

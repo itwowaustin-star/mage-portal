@@ -65,7 +65,7 @@ class HomeController extends Controller
             ->map(fn (PortalAdvisor $advisor) => [
                 'name' => $advisor->name,
                 'title' => $advisor->otherInfo,
-                'phone' => $advisor->phone,
+                'phone' => $this->maskMobile($advisor->phone),
                 'wechat' => $advisor->wechat,
                 'expertise' => $advisor->expertise,
             ]);
@@ -120,7 +120,7 @@ class HomeController extends Controller
             'news' => $news,
             'faqs' => $faqs,
             'contact' => [
-                'phone' => '0349-2288789',
+                'phone' => $this->maskMobile('0349-2288789'),
                 'emails' => ['sxmgwl@163.com', 'itaustin@163.com'],
             ],
         ]);

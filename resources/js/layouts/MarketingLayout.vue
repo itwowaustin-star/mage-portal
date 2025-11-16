@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
-import { Menu as IconMenu, Close } from '@element-plus/icons-vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { computed, ref, watch } from 'vue';
 
 const navigation = [
     { label: '首页', href: '/' },
@@ -12,131 +11,209 @@ const navigation = [
 ];
 
 const mobileMenuOpen = ref(false);
-const activeIndex = computed(() => {
-    const current = window.location.pathname;
-    const index = navigation.findIndex(item => item.href === current);
-    return index >= 0 ? String(index) : '0';
-});
+const page = usePage();
+const currentPath = computed(() => page.url.split('?')[0]);
 
-const handleMenuSelect = (index: string) => {
-    const item = navigation[Number(index)];
-    if (item) {
-        router.visit(item.href);
-    }
-};
+watch(
+    () => page.url,
+    () => {
+        mobileMenuOpen.value = false;
+    },
+);
 </script>
 
 <template>
-    <div class="min-h-screen bg-white text-gray-900">
-        <el-affix :offset="0">
-            <header class="border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
-                <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3">
-                    <Link class="flex items-center gap-3" href="/">
-                        <el-avatar :size="40" src="/logo.png" shape="square" />
-                        <div>
-                            <p class="text-xs uppercase tracking-[0.35em] text-blue-600 font-semibold">MageNetwork</p>
-                            <p class="-mt-1 text-base font-bold text-gray-900">马格网络</p>
-                        </div>
-                    </Link>
-                    
-                    <!-- Desktop Navigation -->
-                    <el-menu
-                        :default-active="activeIndex"
-                        mode="horizontal"
-                        :ellipsis="false"
-                        class="hidden lg:flex border-none"
-                        @select="handleMenuSelect"
+    <div class="min-h-screen bg-white text-slate-900">
+        <header
+            class="sticky top-0 z-30 border-b border-slate-100 bg-white/90 backdrop-blur"
+        >
+            <div
+                class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4"
+            >
+                <Link class="flex items-center gap-3" href="/">
+                    <img
+                        src="/logo.png"
+                        alt="马格网络 Logo"
+                        class="h-11 w-11 rounded-2xl border border-blue-100 bg-white object-contain shadow-sm"
+                    />
+                    <div>
+                        <p
+                            class="text-[0.65rem] font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                        >
+                            MageNetwork
+                        </p>
+                        <p class="-mt-1 text-lg font-bold text-slate-900">
+                            马格网络
+                        </p>
+                    </div>
+                </Link>
+
+                <nav
+                    class="hidden items-center gap-8 text-sm font-semibold text-slate-600 lg:flex"
+                >
+                    <Link
+                        v-for="item in navigation"
+                        :key="item.href"
+                        :href="item.href"
+                        :class="[
+                            'relative transition',
+                            currentPath === item.href
+                                ? 'text-blue-600'
+                                : 'hover:text-slate-900',
+                        ]"
                     >
-                        <el-menu-item
-                            v-for="(item, index) in navigation"
-                            :key="item.href"
-                            :index="String(index)"
-                        >
-                            {{ item.label }}
-                        </el-menu-item>
-                    </el-menu>
-                    
-                    <div class="flex items-center gap-4">
-                        <!-- Desktop CTA Button -->
-                        <el-button
-                            type="primary"
-                            class="hidden lg:inline-flex"
-                            @click="router.visit('/contact')"
-                        >
-                            联系顾问
-                        </el-button>
-                        
-                        <!-- Mobile Menu Button -->
-                        <el-button
-                            :icon="mobileMenuOpen ? Close : IconMenu"
-                            circle
-                            class="lg:hidden"
-                            @click="mobileMenuOpen = !mobileMenuOpen"
+                        {{ item.label }}
+                        <span
+                            v-if="currentPath === item.href"
+                            class="absolute -bottom-2 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500 to-blue-400"
                         />
-                    </div>
+                    </Link>
+                </nav>
+
+                <div class="flex items-center gap-3">
+                    <button
+                        type="button"
+                        class="hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-400/40 transition hover:scale-[1.02] hover:shadow-blue-400/80 lg:inline-flex"
+                        @click="router.visit('/contact')"
+                    >
+                        联系顾问
+                    </button>
+                    <button
+                        type="button"
+                        class="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-slate-600 lg:hidden"
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                    >
+                        <svg
+                            v-if="!mobileMenuOpen"
+                            class="h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4 8h16M4 16h16"
+                            />
+                        </svg>
+                        <svg
+                            v-else
+                            class="h-5 w-5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
                 </div>
-                
-                <!-- Mobile Navigation -->
-                <el-collapse-transition>
-                    <div v-show="mobileMenuOpen" class="lg:hidden border-t border-gray-200 bg-gray-50 px-6 py-4">
-                        <el-menu
-                            :default-active="activeIndex"
-                            class="border-none bg-transparent"
-                            @select="(index: string) => { handleMenuSelect(index); mobileMenuOpen = false; }"
-                        >
-                            <el-menu-item
-                                v-for="(item, index) in navigation"
-                                :key="item.href"
-                                :index="String(index)"
-                            >
-                                {{ item.label }}
-                            </el-menu-item>
-                        </el-menu>
-                        <el-button
-                            type="primary"
-                            class="w-full mt-4"
-                            @click="() => { router.visit('/contact'); mobileMenuOpen = false; }"
-                        >
-                            联系顾问
-                        </el-button>
-                    </div>
-                </el-collapse-transition>
-            </header>
-        </el-affix>
+            </div>
+
+            <div
+                v-show="mobileMenuOpen"
+                class="border-t border-slate-100 bg-white px-6 py-4 lg:hidden"
+            >
+                <nav class="space-y-3">
+                    <Link
+                        v-for="item in navigation"
+                        :key="item.href"
+                        :href="item.href"
+                        class="block rounded-2xl border border-slate-100 px-4 py-3 text-sm font-semibold"
+                        :class="
+                            currentPath === item.href
+                                ? 'bg-blue-50 text-blue-600'
+                                : 'text-slate-600'
+                        "
+                    >
+                        {{ item.label }}
+                    </Link>
+                </nav>
+                <button
+                    type="button"
+                    class="mt-4 w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-400/40 transition hover:shadow-blue-400/80"
+                    @click="router.visit('/contact')"
+                >
+                    联系顾问
+                </button>
+            </div>
+        </header>
 
         <main>
             <slot />
         </main>
 
-        <footer class="mt-16 border-t border-gray-200 bg-gray-50 py-12">
-            <div class="mx-auto w-full max-w-6xl px-6">
-                <el-row :gutter="32" class="mb-8">
-                    <el-col :xs="24" :md="8">
-                        <el-text type="primary" class="text-xs uppercase tracking-[0.35em] font-semibold">公司简介</el-text>
-                        <el-text class="mt-3 block text-sm">山西马格网络科技有限公司致力于为企业提供全方位的网络安全和信息化解决方案。</el-text>
-                    </el-col>
-                    <el-col :xs="24" :md="8">
-                        <el-text type="primary" class="text-xs uppercase tracking-[0.35em] font-semibold">快速链接</el-text>
-                        <div class="mt-3 space-y-2">
-                            <Link href="/services" class="block text-sm hover:text-blue-600 transition">服务体系</Link>
-                            <Link href="/about" class="block text-sm hover:text-blue-600 transition">关于我们</Link>
-                            <Link href="/team" class="block text-sm hover:text-blue-600 transition">团队介绍</Link>
-                            <Link href="/contact" class="block text-sm hover:text-blue-600 transition">联系我们</Link>
+        <footer class="mt-16 border-t border-slate-100 bg-slate-50/70 py-12">
+            <div class="mx-auto w-full max-w-6xl space-y-8 px-6">
+                <div class="grid gap-8 md:grid-cols-3">
+                    <div>
+                        <p
+                            class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                        >
+                            公司简介
+                        </p>
+                        <p class="mt-3 text-sm text-slate-600">
+                            山西马格网络科技有限公司致力于为企业提供全方位的网络安全和信息化解决方案。
+                        </p>
+                    </div>
+                    <div>
+                        <p
+                            class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                        >
+                            快速链接
+                        </p>
+                        <div class="mt-3 space-y-2 text-sm">
+                            <Link
+                                href="/services"
+                                class="block text-slate-600 transition hover:text-blue-600"
+                                >服务体系</Link
+                            >
+                            <Link
+                                href="/about"
+                                class="block text-slate-600 transition hover:text-blue-600"
+                                >关于我们</Link
+                            >
+                            <Link
+                                href="/team"
+                                class="block text-slate-600 transition hover:text-blue-600"
+                                >团队介绍</Link
+                            >
+                            <Link
+                                href="/contact"
+                                class="block text-slate-600 transition hover:text-blue-600"
+                                >联系我们</Link
+                            >
                         </div>
-                    </el-col>
-                    <el-col :xs="24" :md="8">
-                        <el-text type="primary" class="text-xs uppercase tracking-[0.35em] font-semibold">联系方式</el-text>
-                        <div class="mt-3 space-y-2">
-                            <el-text class="block text-sm">电话：0349-2288789</el-text>
-                            <el-text class="block text-sm">邮箱：sxmgwl@163.com</el-text>
-                            <el-text type="info" class="block text-xs">itaustin@163.com</el-text>
-                            <el-text type="info" class="block text-xs mt-2">地址：山西省朔州市开发区恒晟大厦 1204/1304/1703</el-text>
+                    </div>
+                    <div>
+                        <p
+                            class="text-xs font-semibold tracking-[0.4em] text-blue-600 uppercase"
+                        >
+                            联系方式
+                        </p>
+                        <div class="mt-3 space-y-2 text-sm text-slate-600">
+                            <p>电话：0349-2288789</p>
+                            <p>邮箱：sxmgwl@163.com</p>
+                            <p class="text-xs text-slate-500">
+                                itaustin@163.com
+                            </p>
+                            <p class="text-xs text-slate-500">
+                                地址：山西省朔州市开发区恒晟大厦 1204/1304/1703
+                            </p>
                         </div>
-                    </el-col>
-                </el-row>
-                <el-divider />
-                <div class="text-center">
-                    <el-text type="info" class="text-xs">晋 ICP 备 2023002392 号-1 · © {{ new Date().getFullYear() }} MageNetwork. All Rights Reserved.</el-text>
+                    </div>
+                </div>
+                <div
+                    class="border-t border-slate-100 pt-6 text-center text-xs text-slate-500"
+                >
+                    晋 ICP 备 2023002392 号-1 · ©
+                    {{ new Date().getFullYear() }} MageNetwork. All Rights
+                    Reserved.
                 </div>
             </div>
         </footer>

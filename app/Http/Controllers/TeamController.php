@@ -19,7 +19,7 @@ class TeamController extends Controller
                 'name' => $advisor->name,
                 'title' => $advisor->otherInfo,
                 'expertise' => $advisor->expertise,
-                'phone' => $advisor->phone,
+                'phone' => $this->maskMobile($advisor->phone),
                 'wechat' => $advisor->wechat,
             ]);
 

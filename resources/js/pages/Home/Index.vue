@@ -862,7 +862,7 @@ const hasServicesWithImages = computed(
                                         v-for="email in contact.emails"
                                         :key="email"
                                         :href="`mailto:${email}`"
-                                        class="inline-flex w-full items-center gap-2 rounded-lg border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
+                                        class="flex w-full items-start gap-2 rounded-lg border border-blue-100 bg-blue-50 px-4 py-2 text-left text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
                                     >
                                         <svg
                                             class="h-4 w-4 flex-shrink-0"
@@ -877,7 +877,7 @@ const hasServicesWithImages = computed(
                                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                                             />
                                         </svg>
-                                        <span class="truncate">{{
+                                        <span class="break-words">{{
                                             email
                                         }}</span>
                                     </a>
