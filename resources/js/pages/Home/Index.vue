@@ -161,23 +161,32 @@ const hasServicesWithImages = computed(
                         </dl>
                     </div>
                     <div
-                        class="rounded-2xl border border-blue-100 bg-white/85 p-6 shadow-2xl shadow-blue-100/60 backdrop-blur"
+                        class="flex h-full flex-col rounded-2xl border border-blue-100 bg-white/90 p-6 shadow-2xl shadow-blue-100/60 backdrop-blur"
                     >
-                        <img
-                            v-if="props.hero.banner"
-                            :src="props.hero.banner"
-                            alt="Hero Banner"
-                            class="h-80 w-full rounded-xl border border-blue-100 object-cover"
-                        />
                         <div
-                            v-else
-                            class="flex h-80 items-center justify-center rounded-xl bg-blue-50 text-blue-500"
+                            class="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-600 to-blue-400 p-6 text-white"
                         >
-                            正在同步最新战报…
+                            <p
+                                class="text-xs tracking-[0.4em] uppercase opacity-80"
+                            >
+                                Why Us
+                            </p>
+                            <h3 class="mt-3 text-2xl leading-snug font-bold">
+                                所有承诺皆可追溯，每个节点都有记录
+                            </h3>
+                            <p
+                                class="mt-3 text-sm leading-relaxed text-white/80"
+                            >
+                                交付任务书、监管材料、驻场顾问日报等内容均连接到后台，方便你对内汇报、对外答复。
+                            </p>
                         </div>
-                        <p class="mt-4 text-sm text-gray-600">
-                            情报、方案、迭代计划都由统一平台驱动，任何对外承诺都可追溯到后台的同一份事实。
-                        </p>
+                        <ul class="mt-6 space-y-3 text-sm text-slate-600">
+                            <li>• 项目节点、风险、整改闭环都在同一个工作台</li>
+                            <li>
+                                • 所有文件支持溯源，可直接用于监管或内部审计
+                            </li>
+                            <li>• 顾问联系方式、响应时间、服务记录实时同步</li>
+                        </ul>
                     </div>
                 </div>
             </div>
