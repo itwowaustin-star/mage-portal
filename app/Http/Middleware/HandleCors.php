@@ -16,8 +16,10 @@ class HandleCors
         $allowedOrigins = [
             'https://www.sxmgwl.com',
             'https://sxmgwl.com',
+            'https://portal.sxmgwl.com',
             'http://www.sxmgwl.com',
             'http://sxmgwl.com',
+            'http://portal.sxmgwl.com'
         ];
 
         $origin = $request->headers->get('Origin');
